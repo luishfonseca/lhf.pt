@@ -36,8 +36,12 @@ $accent-dark: #9ccfd8; /* Foam */
         background-color: $tertiary;
     }
 
-    pre code {
-        background-color: transparent;
+    pre {
+        border: 2px solid $foreground;
+
+        code {
+            background-color: transparent;
+        }
     }
 
     .footnote-definition sup {
@@ -69,8 +73,12 @@ $accent-dark: #9ccfd8; /* Foam */
         background-color: $tertiary-dark;
     }
 
-    pre code {
-        background-color: transparent;
+    pre {
+        border: 2px solid $foreground-dark;
+
+        code {
+            background-color: transparent;
+        }
     }
 
     .footnote-definition sup {
