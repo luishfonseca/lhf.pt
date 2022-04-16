@@ -1,0 +1,3 @@
+[submodule "blog/themes/hook"]
+	path = blog/themes/hook
+	url = git@github.com:InputUsername/zola-hook.git
