@@ -12,7 +12,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.2.5",
+		"@iconify-json/carbon": "^1.1.13",
 		"@sveltejs/adapter-node": "^1.1.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
