@@ -1,60 +1,63 @@
 <script lang="ts">
-	import '@unocss/reset/normalize.css';
-	import 'uno.css';
-	import { browser } from '$app/environment';
+	import type { LayoutData } from './$types';
+	import { mode } from '$lib/stores/mode';
 
-	let year = new Date().getFullYear();
-	let darkMode = true;
+	import 'modern-normalize';
+	import Header from '$lib/components/header/Header.svelte';
+	import Footer from '$lib/components/footer/Footer.svelte';
 
-	function handleToggleDarkMode() {
-		darkMode = !darkMode;
-
-		localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-	}
-
-	if (browser) {
-		let mediaPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		darkMode = localStorage.theme === 'dark' || (!('theme' in localStorage) && mediaPreference);
-	}
+	export let data: LayoutData;
+	$: mode.set(data.mode);
 </script>
 
-<div class={darkMode ? 'dark' : ''} text-center h-screen w-full>
-	<div
-		bg-white
-		dark:bg-black
-		text-black
-		dark:text-white
-		transition-colors
-		transition-duration-500
-		grid="~ rows-[min-content_min-content_1fr]"
-		h-full
-		px-8
-	>
-		<div pt-2 />
-		<div text-right>
-			<button
-				on:click={handleToggleDarkMode}
-				aria-label="Toggle dark mode"
-				title="Toggle dark mode"
-				p-6px
-				text-gray4
-				text-32px
-				border-none
-				bg-inherit
-				cursor-pointer
-			>
-				<div dark:i-carbon-moon i-carbon-sun />
-			</button>
+<div id="theme-container" class={$mode}>
+	<div id="app-content">
+		<Header />
+		<div id="main">
+			<slot />
 		</div>
-		<slot />
-		<div font-serif text-center op-60 fw-200 py-2>
-			Copyright © {year} Luís Fonseca
-		</div>
+		<Footer />
 	</div>
 </div>
 
-<svelte:head>
-	<title>Luís Fonseca</title>
-	<meta name="description" content="Luís Fonseca's personal website" />
-	<meta name="author" content="Luís Fonseca" />
-</svelte:head>
+<style lang="scss">
+	@mixin light-theme() {
+		--text-color: black;
+		--bg-color: white;
+	}
+
+	@mixin dark-theme() {
+		--text-color: white;
+		--bg-color: black;
+	}
+
+	#theme-container {
+		@include light-theme();
+	}
+
+	@media (prefers-color-scheme: dark) {
+		#theme-container:not(.light) {
+			@include dark-theme();
+		}
+	}
+
+	#theme-container.dark {
+		@include dark-theme();
+	}
+
+	#app-content {
+		background-color: var(--bg-color);
+		color: var(--text-color);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 100vh;
+	}
+
+	#main {
+		height: 100%;
+		width: clamp(200px, 50%, 800px);
+		display: flex;
+		flex-direction: row;
+	}
+</style>
