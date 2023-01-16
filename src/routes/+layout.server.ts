@@ -1,7 +1,7 @@
-import type { LayoutServerLoadEvent } from "./$types";
+import type { LayoutServerLoadEvent } from './$types';
 
 export const load = async (event: LayoutServerLoadEvent) => {
-    return {
-        mode: event.cookies.get('mode')
-    }
-}
+	return {
+		mode: event.cookies.get('mode')
+	};
+};
