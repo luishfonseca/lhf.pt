@@ -2,7 +2,7 @@
 	import Icon, { type IconifyIcon } from '@iconify/svelte/dist/OfflineIcon.svelte';
 	import { enhance } from '$app/forms';
 	import { browser } from '$app/environment';
-	import { mode } from '$lib/stores/mode';
+	import { modeStore } from '$lib/appearanceMode';
 
 	import sun from '@iconify-icons/carbon/sun';
 	import moon from '@iconify-icons/carbon/moon';
@@ -25,7 +25,7 @@
 	<input type="hidden" name="set" value="toggle" />
 	<input type="hidden" name="fallback" value={getFallback()} />
 	<button aria-label="Toggle Light and Dark mode" formaction="?/appearance">
-		<Icon icon={getIcon($mode)} height="32px" color="var(--text-color)" />
+		<Icon icon={getIcon($modeStore)} height="32px" color="var(--text-color)" />
 	</button>
 </form>
 

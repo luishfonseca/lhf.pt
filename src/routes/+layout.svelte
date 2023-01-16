@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
-	import { mode } from '$lib/stores/mode';
+	import { modeStore } from '$lib/appearanceMode';
 
 	import 'modern-normalize';
 	import Header from '$lib/components/header/Header.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
 
 	export let data: LayoutData;
-	$: mode.set(data.mode);
+	$: modeStore.set(data.mode);
 </script>
 
-<div id="theme-container" class={$mode}>
+<div id="theme-container" class={$modeStore}>
 	<div id="app-content">
 		<Header />
 		<div id="main">
