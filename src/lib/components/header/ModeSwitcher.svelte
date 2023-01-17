@@ -4,6 +4,7 @@
 	import { browser } from '$app/environment';
 	import { modeStore } from '$lib/appearanceMode';
 
+	import './switcher.css';
 	import sun from '@iconify-icons/carbon/sun';
 	import moon from '@iconify-icons/carbon/moon';
 
@@ -20,22 +21,11 @@
 	}
 </script>
 
-<form method="POST" action="?/appearance" use:enhance>
+<form method="POST" action="/?/appearance" use:enhance>
 	<input type="hidden" name="prop" value="mode" />
 	<input type="hidden" name="set" value="toggle" />
 	<input type="hidden" name="fallback" value={getFallback()} />
-	<button aria-label="Toggle Light and Dark mode" formaction="?/appearance">
+	<button title="Toggle Dark mode" aria-label="Toggle Dark mode" formaction="/?/appearance">
 		<Icon icon={getIcon($modeStore)} height="32px" color="var(--text-color)" />
 	</button>
 </form>
-
-<style>
-	button {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		height: 44px;
-		width: 44px;
-		background-color: inherit;
-	}
-</style>

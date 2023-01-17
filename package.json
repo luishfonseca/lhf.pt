@@ -12,6 +12,9 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@fontsource/ibm-plex-mono": "^4.5.13",
+		"@fontsource/ibm-plex-sans": "^4.5.13",
+		"@fontsource/ibm-plex-serif": "^4.5.12",
 		"@iconify-icons/carbon": "^1.2.14",
 		"@iconify/svelte": "^3.0.1",
 		"@sveltejs/adapter-node": "^1.1.0",

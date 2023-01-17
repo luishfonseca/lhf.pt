@@ -1,4 +1,5 @@
 import { loadMode } from '$lib/appearanceMode';
+import { loadSerifs } from '$lib/appearanceSerifs';
 import { redirect, type Actions, type ServerLoadEvent } from '@sveltejs/kit';
 
 export async function load(event: ServerLoadEvent) {
@@ -11,13 +12,16 @@ export async function load(event: ServerLoadEvent) {
 export const actions: Actions = {
 	appearance: async (event) => {
 		const data = await event.request.formData();
-		const location = event.request.headers.get('origin');
+		const location = event.request.headers.get('referer');
 
 		let value: string;
 		const key = data.get('prop');
 		switch (key) {
 			case 'mode':
 				value = loadMode(data, event);
+				break;
+			case 'serifs':
+				value = loadSerifs(data, event);
 				break;
 			default:
 				return;
