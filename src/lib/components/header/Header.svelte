@@ -34,7 +34,6 @@
 
 	.name#short {
 		font-size: 2em;
-		// add space between letters
 		letter-spacing: 0.2em;
 		display: none;
 	}
