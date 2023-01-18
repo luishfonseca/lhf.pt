@@ -1,13 +1,6 @@
 import { loadMode } from '$lib/appearanceMode';
 import { loadSerifs } from '$lib/appearanceSerifs';
-import { redirect, type Actions, type ServerLoadEvent } from '@sveltejs/kit';
-
-export async function load(event: ServerLoadEvent) {
-	event.setHeaders({
-		// TODO: This header is https only, make sure that the nginx proxy doesn't remove it
-		'Accept-CH': 'Sec-CH-Prefers-Color-Scheme'
-	});
-}
+import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	appearance: async (event) => {
