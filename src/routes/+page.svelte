@@ -4,6 +4,37 @@
 	import github from '@iconify-icons/carbon/logo-github';
 	import linkedin from '@iconify-icons/carbon/logo-linkedin';
 	import email from '@iconify-icons/carbon/email';
+
+	let links = [
+		{
+			name: 'About',
+			href: '/about'
+		},
+		{
+			name: 'CV',
+			href: '/cv'
+		},
+		{
+			name: 'Posts',
+			href: '/posts'
+		}
+	];
+
+	let social = [
+		{
+			icon: github,
+			href: 'https://github.com/luishfonseca'
+		},
+		{
+			icon: email,
+			href: 'mailto:luis@lhf.pt',
+			target: '_blank'
+		},
+		{
+			icon: linkedin,
+			href: 'https://www.linkedin.com/in/luishfonseca/'
+		}
+	];
 </script>
 
 <svelte:head>
@@ -14,91 +45,93 @@
 
 <div id="container">
 	<div id="links">
-		<a href="/about"><span>About</span></a>
-		<span><Icon icon={dotMark} /></span>
-		<a href="/cv"><span>CV</span></a>
-		<span><Icon icon={dotMark} /></span>
-		<a href="/posts"><span>Posts</span></a>
+		{#each links as { href, name }, i}
+			<div>
+				<a {href}>{name}</a>
+			</div>
+			{#if i < links.length - 1}
+				<div class="separator"><Icon icon={dotMark} /></div>
+			{/if}
+		{/each}
 	</div>
 	<div id="social">
-		<a aria-label="Github" href="https://github.com/luishfonseca">
-			<Icon height="64px" icon={github} />
-		</a>
-		<a aria-label="Email" href="mailto:luis@lhf.pt" target="_blank">
-			<Icon height="64px" icon={email} />
-		</a>
-		<a aria-label="Linkedin" href="https://www.linkedin.com/in/luishfonseca/">
-			<Icon height="64px" icon={linkedin} />
-		</a>
+		{#each social as { href, icon, target }}
+			<a {href} {target}>
+				<Icon height="64px" {icon} />
+			</a>
+		{/each}
 	</div>
 </div>
 
 <style lang="scss">
+	$accent-color: var(--purple);
+
 	#container {
 		display: flex;
-		height: 100%;
-		width: 100%;
 		flex-direction: column;
 		justify-content: center;
+		width: 100%;
+		height: 100%;
+		gap: 50px;
+	}
+
+	.separator {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	#links {
 		display: flex;
-		justify-content: center;
-		margin-bottom: 20px;
-	}
-
-	#links > a {
-		transition: all 0.2s ease-in-out;
-		text-decoration: none;
-		font-size: 2.5em;
-		font-weight: 200;
-		margin: 0 10px;
-	}
-
-	#links > :last-child,
-	#links > :first-child {
-		flex-grow: 1;
-		flex-basis: 0;
-	}
-
-	#links > :first-child {
-		text-align: right;
-	}
-
-	#links > a > span {
-		border-bottom: dotted 5px transparent;
-		color: var(--subtle-color);
-		padding: 0 2px;
-	}
-
-	#links > a:hover > span,
-	#links > a:focus > span {
-		color: var(--purple);
-		border-bottom: dotted 5px;
-	}
-
-	#links > span {
-		color: var(--muted-color);
-		display: flex;
+		justify-content: space-between;
 		align-items: center;
+		gap: 0 12px;
+		color: var(--muted-color);
+
+		> :first-child {
+			text-align: right;
+		}
+
+		> :first-child,
+		> :last-child {
+			flex-grow: 1;
+			flex-basis: 0;
+		}
+
+		> div {
+			> a {
+				font-size: 3em;
+				font-weight: 400;
+				color: var(--subtle-color);
+				padding: 0 4px;
+				border-bottom: dotted 5px transparent;
+				transition: all 0.2s ease-in-out;
+				text-decoration: none;
+			}
+
+			> a:hover,
+			> a:focus {
+				color: $accent-color;
+				border-bottom: dotted 5px;
+				transition: color 0.2s ease-in-out;
+			}
+		}
 	}
 
 	#social {
 		display: flex;
 		justify-content: center;
-		margin-top: 20px;
-	}
+		gap: 20px;
 
-	#social > a {
-		color: var(--subtle-color);
-		margin: 0 10px;
-	}
+		> a {
+			color: var(--subtle-color);
 
-	#social > a:hover,
-	#social > a:focus {
-		color: var(--purple);
-		transition: color 0.2s ease-in-out;
+			&:hover,
+			&:focus {
+				color: $accent-color;
+				transition: color 0.2s ease-in-out;
+			}
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -110,7 +143,7 @@
 			flex-direction: column;
 		}
 
-		#links > span {
+		.separator {
 			visibility: hidden;
 		}
 	}
