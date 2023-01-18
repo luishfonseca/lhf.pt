@@ -53,7 +53,7 @@
 		text-decoration: none;
 		font-size: 2.5em;
 		font-weight: 200;
-		margin: 0 5px;
+		margin: 0 10px;
 	}
 
 	#links > :last-child,
@@ -69,7 +69,7 @@
 	#links > a > span {
 		border-bottom: dotted 5px transparent;
 		color: var(--subtle-color);
-		padding: 0 5px;
+		padding: 0 2px;
 	}
 
 	#links > a:hover > span,
