@@ -29,7 +29,7 @@ export const actions: Actions = {
 
 		let expires = new Date();
 		expires.setFullYear(expires.getFullYear() + 1);
-		event.cookies.set(key, value, { expires });
+		event.cookies.set(key, value, { expires, secure: false });
 
 		throw redirect(303, location ? location : '/');
 	}
