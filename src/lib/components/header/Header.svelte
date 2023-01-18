@@ -4,14 +4,15 @@
 </script>
 
 <div id="header">
-	<a href="/" id="name">Luís Fonseca</a>
+	<a href="/" class="name" id="long">Luís Fonseca</a>
+	<a href="/" class="name" id="short">LHF</a>
 	<div id="switchers">
 		<SerifsSwitcher />
 		<ModeSwitcher />
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	#header {
 		transition: background-color 0.2s ease-in-out;
 		background-color: var(--base-color);
@@ -23,13 +24,31 @@
 		padding: 10px 16px;
 	}
 
-	#name {
+	.name {
 		color: var(--text-color);
 		text-decoration: none;
 		font-family: var(--mono-font);
 		font-size: 1.8em;
 		font-weight: 200;
 	}
+
+	.name#short {
+		font-size: 2em;
+		// add space between letters
+		letter-spacing: 0.2em;
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.name#long {
+			display: none;
+		}
+
+		.name#short {
+			display: block;
+		}
+	}
+
 	#switchers {
 		display: flex;
 		justify-content: space-between;
