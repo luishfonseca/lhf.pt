@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Luís Fonseca</title>
+	<title>Luís Fonseca's Blog</title>
 	<meta name="description" content="Luís Fonseca's personal website" />
 	<meta name="author" content="Luís Fonseca" />
 </svelte:head>
