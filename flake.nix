@@ -12,7 +12,32 @@
     in
     {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [ nodejs nodePackages.npm ];
+        buildInputs = with pkgs; [ nodejs yarn ];
+      };
+      defaultPackage = pkgs.mkYarnPackage rec {
+        pname = "lhf-pt-website";
+        version = "0.0.1";
+
+        src = ./.;
+        packageJson = "${src}/package.json";
+        yarnLock = "${src}/yarn.lock";
+
+        buildPhase = ''
+          yarn --offline build
+        '';
+
+        installPhase = ''
+          mkdir -p $out
+          echo "{ \"type\": \"module\" }" > $out/package.json
+          cp -rt $out deps/${pname}/build/* node_modules
+        '';
+
+        postFixup = ''
+          sed '1 i\#!${pkgs.nodejs}/bin/node' -i $out/index.js
+          chmod +x $out/index.js
+        '';
+
+        distPhase = "true";
       };
     });
 }
