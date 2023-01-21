@@ -12,31 +12,25 @@
     in
     {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [ nodejs yarn ];
+        buildInputs = with pkgs; [ nodejs nodePackages.npm ];
       };
 
-      defaultPackage = pkgs.mkYarnPackage rec {
+      defaultPackage = pkgs.buildNpmPackage {
         pname = "lhf-pt-website";
         version = "0.0.1";
 
         src = ./.;
-
-        buildPhase = ''
-          yarn --offline build
-        '';
+        npmDepsHash = "sha256-5Py0Qaam168qsqwFe/zVFXJxxHXJ33gTYzeRT0x5WBI=";
 
         installPhase = ''
           mkdir -p $out
-          echo "{ \"type\": \"module\" }" > $out/package.json
-          cp -rt $out deps/${pname}/build/* node_modules
-        '';
+          npx ncc build build/ -m -o $out
+          cp -r build/client $out
 
-        postFixup = ''
+          # Make entrypoint executable
           sed '1 i\#!${pkgs.nodejs}/bin/node' -i $out/index.js
           chmod +x $out/index.js
         '';
-
-        doDist = false;
       };
     });
 }
