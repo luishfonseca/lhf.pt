@@ -14,6 +14,7 @@
       devShell = pkgs.mkShell {
         buildInputs = with pkgs; [ nodejs yarn ];
       };
+
       defaultPackage = pkgs.mkYarnPackage rec {
         pname = "lhf-pt-website";
         version = "0.0.1";
@@ -35,7 +36,7 @@
           chmod +x $out/index.js
         '';
 
-        distPhase = "true";
+        doDist = false;
       };
     });
 }
