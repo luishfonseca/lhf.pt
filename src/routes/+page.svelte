@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Icon from '@iconify/svelte/dist/OfflineIcon.svelte';
 	import dotMark from '@iconify-icons/carbon/dot-mark';
 	import github from '@iconify-icons/carbon/logo-github';
@@ -23,16 +23,19 @@
 	let social = [
 		{
 			icon: github,
-			href: 'https://github.com/luishfonseca'
+			href: 'https://github.com/luishfonseca',
+			label: 'GitHub'
 		},
 		{
 			icon: email,
 			href: 'mailto:luis@lhf.pt',
-			target: '_blank'
+			target: '_blank',
+			label: 'Email'
 		},
 		{
 			icon: linkedin,
-			href: 'https://www.linkedin.com/in/luishfonseca/'
+			href: 'https://www.linkedin.com/in/luishfonseca/',
+			label: 'LinkedIn'
 		}
 	];
 </script>
@@ -55,8 +58,8 @@
 		{/each}
 	</div>
 	<div id="social">
-		{#each social as { href, icon, target }}
-			<a {href} {target}>
+		{#each social as { href, icon, target, label }}
+			<a aria-label={label} {href} {target}>
 				<Icon height="64px" {icon} />
 			</a>
 		{/each}
