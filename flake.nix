@@ -19,8 +19,6 @@
         version = "0.0.1";
 
         src = ./.;
-        packageJson = "${src}/package.json";
-        yarnLock = "${src}/yarn.lock";
 
         buildPhase = ''
           yarn --offline build
