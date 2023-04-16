@@ -2,8 +2,11 @@ import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 import fs from 'fs';
-import * as matter from 'gray-matter';
+import fm from 'front-matter';
+import type { FrontMatterResult } from 'front-matter';
 import { marked } from 'marked';
+
+export const prerender = true;
 
 marked.setOptions({
 	walkTokens: (token) => {
@@ -27,12 +30,14 @@ export const load = (({ params }) => {
 		throw error(404, 'Not found');
 	}
 
-	const { data, content } = matter.read(file);
+	const { attributes, body } = fm(fs.readFileSync(file, 'utf-8')) as FrontMatterResult<{
+		title: string;
+	}>;
 
 	return {
 		post: {
-			title: data.title,
-			content: marked(content)
+			title: attributes.title,
+			content: marked(body)
 		}
 	};
 }) as PageServerLoad;
