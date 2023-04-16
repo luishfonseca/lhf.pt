@@ -8,7 +8,9 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			regions: ['lhr1']
+		}),
 		prerender: {
 			crawl: true,
 			entries: ['/posts']
