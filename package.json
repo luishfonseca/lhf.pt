@@ -6,12 +6,9 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"deploy": "vercel",
-		"production": "vercel --prod",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && prisma validate",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write . && prisma format"
 	},
 	"devDependencies": {
 		"@fontsource/ibm-plex-mono": "^4.5.13",
@@ -19,6 +16,7 @@
 		"@fontsource/ibm-plex-serif": "^4.5.12",
 		"@iconify-icons/carbon": "^1.2.14",
 		"@iconify/svelte": "^3.0.1",
+		"@prisma/client": "^4.12.0",
 		"@sveltejs/adapter-node": "^1.1.0",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"@sveltejs/kit": "^1.0.0",
@@ -33,6 +31,7 @@
 		"modern-normalize": "^1.1.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",
+		"prisma": "^4.12.0",
 		"sass": "^1.57.1",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",

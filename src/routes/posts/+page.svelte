@@ -7,5 +7,5 @@
 <h1>Index</h1>
 
 {#each data.posts as post}
-	<a href="/posts/{post}">{post}</a>
+	<a href="/posts/{post.slug}">{post.title}</a>
 {/each}

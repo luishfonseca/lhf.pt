@@ -18,7 +18,23 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
+        "unstable": "unstable",
         "utils": "utils"
+      }
+    },
+    "unstable": {
+      "locked": {
+        "lastModified": 1681557730,
+        "narHash": "sha256-j2E3639kS3Qop2jQPyqWCdenZNaqIdxfoTvAHnGuAGI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "85b081528b937df4bfcaee80c3541b58f397df8b",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
       }
     },
     "utils": {

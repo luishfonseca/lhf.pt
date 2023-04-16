@@ -1,25 +1,7 @@
-import fs from 'fs';
+import { dev } from '$app/environment';
 
-export const prerender = true;
+import { getPosts } from '$lib/server/database';
 
-const posts_dir = 'content/posts';
-
-function getFiles(dir: fs.PathLike): string[] {
-	return fs.readdirSync(dir).flatMap((file) => {
-		const path = `${dir}/${file}`;
-		return fs.statSync(path).isDirectory() ? getFiles(path) : path;
-	});
-}
-
-export const load = () => {
-	return {
-		posts: getFiles(posts_dir).map((file) => {
-			const dirs = file.split('/');
-			return [
-				...dirs.slice(2, dirs.length - 1),
-				'-',
-				dirs[dirs.length - 1].replace('.md', '')
-			].join('/');
-		})
-	};
+export const load = async () => {
+	return { posts: await getPosts(dev) };
 };

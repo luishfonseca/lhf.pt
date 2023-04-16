@@ -1,0 +1,38 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  slug      String        @id
+  title     String
+  content   String?       @db.Text
+  tags      TagsOnPosts[]
+  published Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([slug, createdAt(sort: Desc)])
+}
+
+model Tag {
+  name  String        @id
+  posts TagsOnPosts[]
+
+  @@index([name])
+}
+
+model TagsOnPosts {
+  post     Post   @relation(fields: [postSlug], references: [slug])
+  postSlug String
+  tag      Tag    @relation(fields: [tagName], references: [name])
+  tagName  String
+
+  @@unique([postSlug, tagName])
+  @@index([tagName])
+}
