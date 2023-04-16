@@ -1,4 +1,6 @@
 name: Lint and Check
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 on: push
 jobs:
   Lint-Check:
