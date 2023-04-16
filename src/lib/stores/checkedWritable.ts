@@ -1,7 +1,7 @@
 import { writable, type Updater } from 'svelte/store';
 
 export function checkedWritable(fail: string, allowed: string[]) {
-	let store = writable(fail);
+	const store = writable(fail);
 
 	return {
 		...store,

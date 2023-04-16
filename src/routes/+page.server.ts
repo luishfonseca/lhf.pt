@@ -20,7 +20,7 @@ export const actions: Actions = {
 				return;
 		}
 
-		let expires = new Date();
+		const expires = new Date();
 		expires.setFullYear(expires.getFullYear() + 1);
 		event.cookies.set(key, value, { expires, secure: false });
 
