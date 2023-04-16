@@ -1,5 +1,5 @@
 ---
-title: "First Post"
+title: 'First Post'
 ---
 
 # this is the first post yay
