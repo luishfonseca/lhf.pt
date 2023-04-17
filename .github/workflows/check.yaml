@@ -1,7 +1,6 @@
 name: Lint
 env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
 on:
   pull_request:
     branches:
@@ -19,9 +18,5 @@ jobs:
         run: npm install
       - name: Lint
         run: npm run lint
-      - name: Pull Vercel Environment Information
-        run: |
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          tail -n+2 .vercel/.env.preview.local >> $GITHUB_ENV
       - name: Check
         run: npm run check
