@@ -1,9 +1,12 @@
-name: Lint and Check
+name: Lint
 env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-on: push
+  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
-  Lint-Check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
