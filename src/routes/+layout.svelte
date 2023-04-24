@@ -8,7 +8,8 @@
 	import { serifsStore } from '$lib/appearanceSerifs';
 
 	import Header from '$lib/components/header/Header.svelte';
-	import Analytics from '$lib/components/Analytics.svelte';
+	import Analytics from '$lib/components/tracking/Analytics.svelte';
+	import Vitals from '$lib/components/tracking/Vitals.svelte';
 
 	export let data: LayoutData;
 	$: modeStore.set(data.mode);
@@ -16,12 +17,14 @@
 </script>
 
 <div id="appearance-container" class="{$modeStore} {$serifsStore === 'yes' ? 'serifs' : ''}">
-	<Analytics />
 	<div id="app-content">
 		<Header />
 		<slot />
 	</div>
 </div>
+
+<Analytics />
+<Vitals />
 
 <style lang="scss">
 	@mixin rose-pine() {
