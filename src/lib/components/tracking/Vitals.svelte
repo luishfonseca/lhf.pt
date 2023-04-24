@@ -9,9 +9,9 @@
 
 	const getConnectionSpeed = () => {
 		return 'connection' in navigator &&
-			navigator['connection'] && // @ts-ignore
-			'effectiveType' in navigator['connection']
-			? (navigator['connection'].effectiveType as string)
+			(navigator as any)['connection'] &&
+			'effectiveType' in (navigator as any)['connection']
+			? ((navigator as any)['connection'].effectiveType as string)
 			: '';
 	};
 
