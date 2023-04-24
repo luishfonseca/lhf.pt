@@ -9,7 +9,7 @@ import { post } from '$lib/db/schema';
 const connection = connect({
 	host: DATABASE_HOST,
 	username: DATABASE_USERNAME,
-	password: DATABASE_PASSWORD,
+	password: DATABASE_PASSWORD
 });
 
 const db = drizzle(connection);
@@ -19,5 +19,9 @@ export const getPost = async (slug: string) => {
 };
 
 export const getPosts = async (includeDrafts: boolean) => {
-	return await db.select().from(post).where(eq(post.published, includeDrafts ? false : true)).orderBy(desc(post.createdAt));
+	return await db
+		.select()
+		.from(post)
+		.where(eq(post.published, includeDrafts ? false : true))
+		.orderBy(desc(post.createdAt));
 };
