@@ -6,9 +6,9 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && prisma validate",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write . && prisma format"
+		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
 		"@fontsource/ibm-plex-mono": "^4.5.13",
@@ -16,6 +16,7 @@
 		"@fontsource/ibm-plex-serif": "^4.5.12",
 		"@iconify-icons/carbon": "^1.2.14",
 		"@iconify/svelte": "^3.0.1",
+		"@planetscale/database": "^1.7.0",
 		"@prisma/client": "^4.12.0",
 		"@sveltejs/adapter-node": "^1.1.0",
 		"@sveltejs/adapter-vercel": "^2.4.1",
@@ -23,6 +24,9 @@
 		"@types/marked": "^4.0.8",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
+		"dotenv": "^16.0.3",
+		"drizzle-kit": "^0.17.6",
+		"drizzle-orm": "^0.25.1",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -31,7 +35,6 @@
 		"modern-normalize": "^1.1.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",
-		"prisma": "^4.12.0",
 		"sass": "^1.57.1",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
