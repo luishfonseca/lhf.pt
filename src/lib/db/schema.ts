@@ -32,7 +32,7 @@ export const tag = mysqlTable('Tag', {
 export const tagsOnPosts = mysqlTable(
 	'TagsOnPosts',
 	{
-		postSlug: varchar('post_slugs', { length: 256 }).notNull(),
+		postSlug: varchar('post_slug', { length: 256 }).notNull(),
 		tagName: varchar('tag_name', { length: 256 }).notNull()
 	},
 	(table) => ({

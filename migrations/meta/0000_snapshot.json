@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "mysql",
-	"id": "edf24de0-2c36-4da8-a573-05952ef15c80",
+	"id": "59730e4f-11c9-4917-8716-6cc5ea0539e6",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"Post": {
@@ -73,8 +73,8 @@
 		"TagsOnPosts": {
 			"name": "TagsOnPosts",
 			"columns": {
-				"post_slugs": {
-					"name": "post_slugs",
+				"post_slug": {
+					"name": "post_slug",
 					"type": "varchar(256)",
 					"primaryKey": false,
 					"notNull": true,
@@ -91,9 +91,9 @@
 			"indexes": {},
 			"foreignKeys": {},
 			"compositePrimaryKeys": {
-				"TagsOnPosts_post_slugs_tag_name": {
-					"name": "TagsOnPosts_post_slugs_tag_name",
-					"columns": ["post_slugs", "tag_name"]
+				"TagsOnPosts_post_slug_tag_name": {
+					"name": "TagsOnPosts_post_slug_tag_name",
+					"columns": ["post_slug", "tag_name"]
 				}
 			}
 		}

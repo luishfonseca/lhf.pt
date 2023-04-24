@@ -11,10 +11,10 @@ CREATE TABLE `Tag` (
 );
 --> statement-breakpoint
 CREATE TABLE `TagsOnPosts` (
-	`post_slugs` varchar(256) NOT NULL,
+	`post_slug` varchar(256) NOT NULL,
 	`tag_name` varchar(256) NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE `TagsOnPosts` ADD PRIMARY KEY(`post_slugs`,`tag_name`);
+ALTER TABLE `TagsOnPosts` ADD PRIMARY KEY(`post_slug`,`tag_name`);
 --> statement-breakpoint
 CREATE INDEX `created_at_idx` ON `Post` (`created_at`);
