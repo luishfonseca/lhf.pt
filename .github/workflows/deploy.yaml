@@ -18,7 +18,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          grep -v '^#' .vercel/.env.production.local | sed s/\"//g >> $GITHUB_ENV
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
