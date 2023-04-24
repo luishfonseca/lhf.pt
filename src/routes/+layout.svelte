@@ -6,7 +6,7 @@
 	import '@fontsource/ibm-plex-serif';
 	import 'modern-normalize';
 	import { serifsStore } from '$lib/appearanceSerifs';
-	
+
 	import Header from '$lib/components/header/Header.svelte';
 	import Analytics from '$lib/components/Analytics.svelte';
 
