@@ -9,6 +9,7 @@ const config = {
 
 	kit: {
 		adapter: adapter({
+			runtime: 'edge',
 			regions: ['lhr1']
 		}),
 		prerender: {
