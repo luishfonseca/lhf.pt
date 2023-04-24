@@ -1,0 +1,13 @@
+{
+	"version": "5",
+	"dialect": "mysql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "5",
+			"when": 1682331449297,
+			"tag": "0000_sparkling_princess_powerful",
+			"breakpoints": true
+		}
+	]
+}
