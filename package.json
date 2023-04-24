@@ -18,8 +18,6 @@
 		"@iconify-icons/carbon": "^1.2.14",
 		"@iconify/svelte": "^3.0.1",
 		"@planetscale/database": "^1.7.0",
-		"@prisma/client": "^4.12.0",
-		"@sveltejs/adapter-node": "^1.1.0",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"@sveltejs/kit": "^1.0.0",
 		"@types/marked": "^4.0.8",
