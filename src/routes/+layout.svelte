@@ -5,8 +5,10 @@
 	import '@fontsource/ibm-plex-sans';
 	import '@fontsource/ibm-plex-serif';
 	import 'modern-normalize';
-	import Header from '$lib/components/header/Header.svelte';
 	import { serifsStore } from '$lib/appearanceSerifs';
+	
+	import Header from '$lib/components/header/Header.svelte';
+	import Analytics from '$lib/components/Analytics.svelte';
 
 	export let data: LayoutData;
 	$: modeStore.set(data.mode);
@@ -14,6 +16,7 @@
 </script>
 
 <div id="appearance-container" class="{$modeStore} {$serifsStore === 'yes' ? 'serifs' : ''}">
+	<Analytics />
 	<div id="app-content">
 		<Header />
 		<slot />
