@@ -1,22 +1,22 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
-	import { modeStore } from '$lib/appearanceMode';
-
-	import '@fontsource/ibm-plex-sans';
-	import '@fontsource/ibm-plex-serif';
-	import 'modern-normalize';
-	import { serifsStore } from '$lib/appearanceSerifs';
+	import { modeStore } from '$lib/stores/appearance/mode';
+	import { serifsStore } from '$lib/stores/appearance/serifs';
 
 	import Header from '$lib/components/header/Header.svelte';
 	import Analytics from '$lib/components/tracking/Analytics.svelte';
 	import Vitals from '$lib/components/tracking/Vitals.svelte';
+
+	import '@fontsource/ibm-plex-sans';
+	import '@fontsource/ibm-plex-serif';
+	import 'modern-normalize';
 
 	export let data: LayoutData;
 	$: modeStore.set(data.mode);
 	$: serifsStore.set(data.serifs);
 </script>
 
-<div id="appearance-container" class="{$modeStore} {$serifsStore === 'yes' ? 'serifs' : ''}">
+<div id="appearance-container" class="{$modeStore} {$serifsStore}">
 	<div id="app-content">
 		<Header />
 		<slot />

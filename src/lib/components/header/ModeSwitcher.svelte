@@ -2,7 +2,7 @@
 	import Icon, { type IconifyIcon } from '@iconify/svelte/dist/OfflineIcon.svelte';
 	import { enhance } from '$app/forms';
 	import { browser } from '$app/environment';
-	import { modeStore } from '$lib/appearanceMode';
+	import { modeStore } from '$lib/stores/appearance/mode';
 
 	import './switcher.css';
 	import sun from '@iconify-icons/carbon/sun';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { serifsStore } from '$lib/appearanceSerifs';
+	import { serifsStore } from '$lib/stores/appearance/serifs';
 	import './switcher.css';
 </script>
 
@@ -8,7 +8,7 @@
 	<input type="hidden" name="prop" value="serifs" />
 	<input type="hidden" name="set" value="toggle" />
 	<button title="Toggle Serifs" aria-label="Toggle Serifs" formaction="/?/appearance">
-		<div style="font-family: var({$serifsStore === 'yes' ? '--sans-font' : '--serif-font'})">F</div>
+		<div style="font-family: var({$serifsStore === 'serifs' ? '--sans-font' : '--serif-font'})">F</div>
 	</button>
 </form>
 
