@@ -4,7 +4,7 @@
 
 	import { onCLS, onFCP, onFID, onLCP, onTTFB, type Metric } from 'web-vitals';
 
-	const vitalsUrl = 'https://api.vercel.com/v1/vitals';
+	const vitalsUrl = 'https://vitals.vercel-insights.com/v1/vitals';
 	const analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
 
 	const getConnectionSpeed = () => {
