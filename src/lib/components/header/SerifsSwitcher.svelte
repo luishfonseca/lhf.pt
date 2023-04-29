@@ -8,7 +8,9 @@
 	<input type="hidden" name="prop" value="serifs" />
 	<input type="hidden" name="set" value="toggle" />
 	<button title="Toggle Serifs" aria-label="Toggle Serifs" formaction="/?/appearance">
-		<div style="font-family: var({$serifsStore === 'serifs' ? '--sans-font' : '--serif-font'})">F</div>
+		<div style="font-family: var({$serifsStore === 'serifs' ? '--sans-font' : '--serif-font'})">
+			F
+		</div>
 	</button>
 </form>
 
