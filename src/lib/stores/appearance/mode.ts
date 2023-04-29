@@ -1,5 +1,5 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import { checkedWritable } from './stores/checkedWritable';
+import { checkedWritable } from '../checkedWritable';
 
 export const modeStore = checkedWritable('system', ['light', 'dark', 'system']);
 

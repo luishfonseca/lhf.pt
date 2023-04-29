@@ -1,5 +1,5 @@
-import { loadMode } from '$lib/appearanceMode';
-import { loadSerifs } from '$lib/appearanceSerifs';
+import { loadMode } from '$lib/stores/appearance/mode';
+import { loadSerifs } from '$lib/stores/appearance/serifs';
 import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
