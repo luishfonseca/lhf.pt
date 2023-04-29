@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { browser, dev } from '$app/environment';
 
-	import { onCLS, onFCP, onFID, onLCP, onTTFB, type Metric } from 'web-vitals';
+	import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
 
 	const vitalsUrl = 'https://vitals.vercel-insights.com/v1/vitals';
 	const analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
@@ -45,6 +45,7 @@
 		onCLS(sendToAnalytics);
 		onFCP(sendToAnalytics);
 		onFID(sendToAnalytics);
+		onINP(sendToAnalytics);
 		onLCP(sendToAnalytics);
 		onTTFB(sendToAnalytics);
 	}
