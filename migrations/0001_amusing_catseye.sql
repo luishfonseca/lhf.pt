@@ -1,0 +1,1 @@
+ALTER TABLE `Post` ADD `special` boolean DEFAULT false NOT NULL;

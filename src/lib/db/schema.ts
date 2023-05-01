@@ -15,6 +15,7 @@ export const post = mysqlTable(
 		slug: varchar('slug', { length: 256 }).primaryKey(),
 		title: varchar('title', { length: 256 }).notNull(),
 		content: text('content'),
+		special: boolean('special').notNull().default(false),
 		published: boolean('published').notNull().default(false),
 		createdAt: timestamp('created_at', { fsp: 2 })
 			.notNull()
