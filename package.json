@@ -10,7 +10,8 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"migrate": "drizzle-kit generate:mysql && pscale connect lhf dev --execute 'tsx ./migrations/migrate.ts'",
-		"publish": "pscale connect lhf main --execute 'tsx ./src/content.ts publish'"
+		"content-publish": "pscale connect lhf main --execute 'tsx ./src/content.ts publish'",
+		"content-prune": "pscale connect lhf main --execute 'tsx ./src/content.ts prune'"
 	},
 	"devDependencies": {
 		"@fontsource/ibm-plex-mono": "^4.5.13",

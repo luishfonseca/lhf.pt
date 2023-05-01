@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 .direnv
 /result
 .vercel
+.content-op
