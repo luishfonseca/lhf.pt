@@ -1,0 +1,1 @@
+ALTER TABLE `Post` ADD `updatedAt` timestamp(2) DEFAULT now(2) NOT NULL;

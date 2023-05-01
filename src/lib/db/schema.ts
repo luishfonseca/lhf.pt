@@ -19,6 +19,9 @@ export const post = mysqlTable(
 		published: boolean('published').notNull().default(false),
 		createdAt: timestamp('created_at', { fsp: 2 })
 			.notNull()
+			.default(sql`now(2)`),
+		updatedAt: timestamp('updatedAt', { fsp: 2 })
+			.notNull()
 			.default(sql`now(2)`)
 	},
 	(table) => ({
