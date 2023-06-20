@@ -1,8 +1,27 @@
 [package]
 name = "lhf-pt"
+description = "Luís Fonseca's personal website"
+license = "UNLICENSE"
+repository = "https://github.com/luishfonseca/lhf.pt"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
 
-[dependencies]
+[dependencies.wasm-bindgen]
+version = "0.2.87"
+
+[dependencies.yew]
+version = "0.20.0"
+features = ["csr"]
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = [
+  'Document',
+  'Element',
+  'HtmlElement',
+  'Node',
+  'Window',
+]

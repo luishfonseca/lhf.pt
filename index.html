@@ -1,0 +1,15 @@
+<!-- See https://rustwasm.github.io/wasm-bindgen/examples/without-a-bundler.html -->
+<html>
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+</head>
+
+<body>
+    <script type="module">
+        import init, { run } from "./lhf_pt.js";
+        (async () => { await init(); run(); })();
+    </script>
+</body>
+
+</html>
