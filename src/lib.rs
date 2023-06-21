@@ -1,26 +1,29 @@
-mod app;
-
 use wasm_bindgen::prelude::*;
+use yew::prelude::*;
 
-// Called when the wasm module is instantiated
-#[wasm_bindgen(start)]
-fn main() -> Result<(), JsValue> {
-    // Use `web_sys`'s global `window` function to get a handle on the global
-    // window object.
-    let window = web_sys::window().expect("no global `window` exists");
-    let document = window.document().expect("should have a document on window");
-    let body = document.body().expect("document should have a body");
+mod app_router;
 
-    // Manufacture the element we're gonna append
-    let val = document.create_element("p")?;
-    val.set_inner_html("Hello from Rust!");
+use app_router::AppRouter; 
 
-    body.append_child(&val)?;
+pub struct App;
 
-    Ok(())
+impl Component for App {
+    type Message = ();
+    type Properties = ();
+
+    fn create(_: &Context<Self>) -> Self {
+        Self {}
+    }
+
+    fn view(&self, _: &Context<Self>) -> Html {
+        html! {
+            <AppRouter />
+        }
+    }
 }
 
-#[wasm_bindgen]
-pub fn run() {
-    yew::Renderer::<app::App>::new().render();
+#[wasm_bindgen(start)]
+pub fn main() {
+    wasm_logger::init(wasm_logger::Config::new(log::Level::Trace));
+    yew::Renderer::<App>::new().render();
 }

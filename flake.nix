@@ -106,8 +106,8 @@
         ${pkgs.nodePackages.vercel}/bin/vercel deploy --prebuilt ${if prod then "--prod" else ""} ${if ci then "--token=$VERCEL_TOKEN" else ""}
       '';
 
-      serve = { prod }: pkgs.writeScript "serve" ''
-        ${pkgs.nodePackages.http-server}/bin/http-server ${dist { inherit prod; }}/static
+      serve = { prod, port }: pkgs.writeScript "serve" ''
+        ${pkgs.nodePackages.serve}/bin/serve ${dist { inherit prod; }}/static -l ${toString port} -s
       '';
 
       mkApp = run: {
@@ -118,7 +118,7 @@
     in
     rec {
       devShell = pkgs.mkShell {
-        buildInputs = [ rust ];
+        buildInputs = [ rust pkgs.xsel ];
       };
 
       packages.lhf-pt-wasm-prod = buildWasm { prod = true; };
@@ -131,7 +131,7 @@
       apps.deploy-dev = mkApp (deploy { prod = true; });
       apps.deploy-not-ci = mkApp (deploy { prod = false; ci = false; });
 
-      apps.serve-prod = mkApp (serve { prod = true; });
-      apps.serve-dev = mkApp (serve { prod = false; });
+      apps.serve-prod = mkApp (serve { prod = true; port = 5001; });
+      apps.serve-dev = mkApp (serve { prod = false; port = 5002; });
     });
 }

@@ -1,4 +1,3 @@
-<!-- See https://rustwasm.github.io/wasm-bindgen/examples/without-a-bundler.html -->
 <html>
 
 <head>
@@ -7,8 +6,8 @@
 
 <body>
     <script type="module">
-        import init, { run } from "./lhf_pt.js";
-        (async () => { await init(); run(); })();
+        import init from './lhf_pt.js';
+        (async () => await init())();
     </script>
 </body>
 
