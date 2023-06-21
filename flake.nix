@@ -101,8 +101,12 @@
             cp LICENSE $out/
             cp index.html $out/static
 
-            ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/*.wasm
-          '';
+            ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
+
+          '' + (if prod then ''
+            ${pkgs.binaryen}/bin/wasm-opt -Oz $out/static/lhf_pt_bg.wasm -o $out/static/lhf_pt_bg.wasm.opt
+            mv $out/static/lhf_pt_bg.wasm.opt $out/static/lhf_pt_bg.wasm
+          '' else "");
         };
 
       deploy = { prod, ci ? true }: pkgs.writeScript "deploy" ''
@@ -128,7 +132,7 @@
     in
     rec {
       devShell = pkgs.mkShell {
-        buildInputs = [ rust pkgs.xsel ];
+        buildInputs = with pkgs; [ rust twiggy xsel ];
       };
 
       packages.lhf-pt-wasm-prod = buildWasm { prod = true; };
