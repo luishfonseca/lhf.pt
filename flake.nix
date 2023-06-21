@@ -68,6 +68,13 @@
         };
       });
 
+      vercelCfg = builtins.toJSON {
+        version = 3;
+        routes = [
+          { src = "/[^.]+"; dest = "/"; }
+        ];
+      };
+
       dist = { prod }:
         let wasm = buildWasm { inherit prod; }; in
         pkgs.stdenv.mkDerivation {
@@ -86,12 +93,15 @@
           installPhase = ''
             mkdir -p $out/static
 
-            echo "{ \"version\": 3 }" > $out/config.json
+            cat > $out/config.json << EOF
+            ${vercelCfg}
+            EOF
+
             cp README.md $out/
             cp LICENSE $out/
+            cp index.html $out/static
 
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/*.wasm
-            cp index.html $out/static
           '';
         };
 
