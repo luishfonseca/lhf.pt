@@ -7,8 +7,8 @@ pub struct AppRouter;
 enum Route {
     #[at("/")]
     Home,
-    #[at("/secure")]
-    Secure,
+    #[at("/env")]
+    Environment,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -17,7 +17,7 @@ enum Route {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
-        Route::Secure => html! { <Secure /> },
+        Route::Environment => html! { <Environment /> },
         Route::NotFound => html! { <h1>{ "404" }</h1> },
     }
 }
@@ -39,14 +39,16 @@ impl Component for AppRouter {
     }
 }
 
-#[function_component(Secure)]
-fn secure() -> Html {
+#[function_component(Environment)]
+fn environment() -> Html {
     let navigator = use_navigator().unwrap();
+
+    let env = option_env!("CARGO_PROFILE").unwrap_or("UNKNOWN");
 
     let onclick = Callback::from(move |_| navigator.push(&Route::Home));
     html! {
         <div>
-            <h1>{ "Secure" }</h1>
+            <h1>{ env }</h1>
             <button {onclick}>{ "Go Home" }</button>
         </div>
     }
