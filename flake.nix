@@ -87,6 +87,7 @@
               "index.html"
               "LICENSE"
               "README.md"
+              "content"
             ];
           };
 
@@ -100,6 +101,8 @@
             cp README.md $out/
             cp LICENSE $out/
             cp index.html $out/static
+            cp -r content $out/static
+            ${pkgs.tree}/bin/tree $out/static/content -J > $out/static/content.json
 
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
 
