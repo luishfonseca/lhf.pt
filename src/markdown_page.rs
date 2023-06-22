@@ -9,6 +9,7 @@ pub enum LoadState {
 
 pub struct MarkdownPage {
     path_changed: bool,
+    always_update: bool,
     content: LoadState,
 }
 
@@ -29,6 +30,7 @@ impl Component for MarkdownPage {
         Self {
             path_changed: true,
             content: LoadState::Loading,
+            always_update: option_env!("CARGO_PROFILE").unwrap_or("unknown") == "dev",
         }
     }
 
@@ -38,7 +40,7 @@ impl Component for MarkdownPage {
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, _: bool) {
-        if self.path_changed {
+        if self.path_changed || self.always_update {
             let path = ctx.props().path.to_string();
             let link = ctx.link().clone();
             wasm_bindgen_futures::spawn_local(async move {
