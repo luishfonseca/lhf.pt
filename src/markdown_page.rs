@@ -8,7 +8,7 @@ pub enum LoadState {
 }
 
 pub struct MarkdownPage {
-    new_path: bool,
+    path_changed: bool,
     content: LoadState,
 }
 
@@ -27,24 +27,24 @@ impl Component for MarkdownPage {
 
     fn create(_: &Context<Self>) -> Self {
         Self {
-            new_path: true,
+            path_changed: true,
             content: LoadState::Loading,
         }
     }
 
     fn changed(&mut self, ctx: &Context<Self>, old_props: &Self::Properties) -> bool {
-        self.new_path = ctx.props().path != old_props.path;
-        self.new_path
+        self.path_changed = ctx.props().path != old_props.path;
+        self.path_changed
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, _: bool) {
-        if self.new_path {
+        if self.path_changed {
             let path = ctx.props().path.to_string();
             let link = ctx.link().clone();
             wasm_bindgen_futures::spawn_local(async move {
                 link.send_message(fetch_markdown(&path).await.map(|md| to_html(&md)));
             });
-            self.new_path = false;
+            self.path_changed = false;
         }
     }
 
