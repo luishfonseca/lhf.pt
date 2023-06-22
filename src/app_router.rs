@@ -3,7 +3,7 @@ use serde_json::Value;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::pages::Post;
+use crate::markdown_page::MarkdownPage;
 use crate::posts_index::PostsIndex;
 
 pub enum LoadState {
@@ -36,7 +36,7 @@ fn switch(routes: Route, idx: &PostsIndex) -> Html {
         Route::Environment => html! { <Environment /> },
         Route::Posts => html! { {idx.html()} },
         Route::Post { slug } => match idx.get_path(&slug) {
-            Some(path) => html! { <Post path ={path} /> },
+            Some(path) => html! { <MarkdownPage path ={path} /> },
             None => {
                 html! { <h1>{ "404" }</h1> }
             }

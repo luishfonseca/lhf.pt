@@ -1,4 +1,5 @@
 use gloo_net::{http::Request, Error};
+use markdown::to_html;
 use yew::prelude::*;
 
 pub enum LoadState {
@@ -6,8 +7,9 @@ pub enum LoadState {
     Loaded(String),
 }
 
-pub struct Post {
-    pub content: LoadState,
+pub struct MarkdownPage {
+    new_path: bool,
+    content: LoadState,
 }
 
 #[derive(Properties, PartialEq)]
@@ -15,27 +17,34 @@ pub struct Props {
     pub path: AttrValue,
 }
 
-async fn fetch_post(path: &str) -> Result<String, Error> {
+async fn fetch_markdown(path: &str) -> Result<String, Error> {
     Request::get(path).send().await?.text().await
 }
 
-impl Component for Post {
+impl Component for MarkdownPage {
     type Message = Result<String, Error>;
     type Properties = Props;
 
     fn create(_: &Context<Self>) -> Self {
         Self {
+            new_path: true,
             content: LoadState::Loading,
         }
     }
 
-    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
-        if first_render {
+    fn changed(&mut self, ctx: &Context<Self>, old_props: &Self::Properties) -> bool {
+        self.new_path = ctx.props().path != old_props.path;
+        self.new_path
+    }
+
+    fn rendered(&mut self, ctx: &Context<Self>, _: bool) {
+        if self.new_path {
             let path = ctx.props().path.to_string();
             let link = ctx.link().clone();
             wasm_bindgen_futures::spawn_local(async move {
-                link.send_message(fetch_post(&path).await);
-            })
+                link.send_message(fetch_markdown(&path).await.map(|md| to_html(&md)));
+            });
+            self.new_path = false;
         }
     }
 
@@ -46,8 +55,8 @@ impl Component for Post {
                 true
             }
             Err(error) => {
-                log::error!("Error fetching post: {:?}", error);
-                true
+                log::error!("Error loading content: {:?}", error);
+                false
             }
         }
     }
@@ -55,7 +64,10 @@ impl Component for Post {
     fn view(&self, _: &Context<Self>) -> Html {
         match &self.content {
             LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
-            LoadState::Loaded(content) => html! { <p>{ content }</p> }
+            LoadState::Loaded(content) => {
+                let parsed = Html::from_html_unchecked(AttrValue::from(content.clone()));
+                html! { {parsed} }
+            }
         }
     }
 }

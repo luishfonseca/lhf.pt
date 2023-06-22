@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
 mod app_router;
-mod pages;
+mod markdown_page;
 mod posts_index;
 
 use app_router::AppRouter;
