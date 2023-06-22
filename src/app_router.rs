@@ -21,6 +21,8 @@ pub enum Route {
     Home,
     #[at("/env")]
     Environment,
+    #[at("/about")]
+    About,
     #[at("/post")]
     Posts,
     #[at("/post/:slug")]
@@ -34,6 +36,7 @@ fn switch(routes: Route, idx: &PostsIndex) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
         Route::Environment => html! { <Environment /> },
+        Route::About => html! { <MarkdownPage path ="/content/about.md" /> },
         Route::Posts => html! { {idx.html()} },
         Route::Post { slug } => match idx.get_path(&slug) {
             Some(path) => html! { <MarkdownPage path ={path} /> },
@@ -93,7 +96,11 @@ impl Component for AppRouter {
                     let switch = move |routes: Route| switch(routes, &idx);
                     html! {
                         <BrowserRouter>
+                            <Link<Route> to={Route::Home}>{ "Home" }</Link<Route>>
+                            <span>{ " | " }</span>
                             <Link<Route> to={Route::Posts}>{ "Post Index" }</Link<Route>>
+                            <span>{ " | " }</span>
+                            <Link<Route> to={Route::About}>{ "About" }</Link<Route>>
                             <Switch<Route> render={switch} />
                         </BrowserRouter>
                     }
