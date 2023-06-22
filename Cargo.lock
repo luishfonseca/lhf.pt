@@ -382,8 +382,11 @@ dependencies = [
 name = "lhf-pt"
 version = "0.1.0"
 dependencies = [
+ "gloo-net",
  "log",
+ "serde_json",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "wasm-logger",
  "yew",
  "yew-router",

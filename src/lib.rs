@@ -2,8 +2,10 @@ use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
 mod app_router;
+mod pages;
+mod posts_index;
 
-use app_router::AppRouter; 
+use app_router::AppRouter;
 
 pub struct App;
 

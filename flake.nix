@@ -102,7 +102,7 @@
             cp LICENSE $out/
             cp index.html $out/static
             cp -r content $out/static
-            ${pkgs.tree}/bin/tree $out/static/content -J > $out/static/content.json
+            ${pkgs.tree}/bin/tree $out/static/content/posts -J > $out/static/content/posts.json
 
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
 
