@@ -4,7 +4,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::markdown_page::MarkdownPage;
-use crate::posts_index::PostsIndex;
+use crate::posts_router::PostsRouter;
 
 pub enum LoadState {
     Loading,
@@ -12,7 +12,7 @@ pub enum LoadState {
 }
 
 pub struct AppRouter {
-    posts_index_value: LoadState,
+    posts_index: LoadState,
 }
 
 #[derive(Clone, Routable, PartialEq)]
@@ -32,18 +32,13 @@ pub enum Route {
     NotFound,
 }
 
-fn switch(routes: Route, idx: &PostsIndex) -> Html {
+fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
         Route::Environment => html! { <Environment /> },
         Route::About => html! { <MarkdownPage path ="/content/about.md" /> },
-        Route::Posts => html! { {idx.html()} },
-        Route::Post { slug } => match idx.get_path(&slug) {
-            Some(path) => html! { <MarkdownPage path ={path} /> },
-            None => {
-                html! { <h1>{ "404" }</h1> }
-            }
-        },
+        Route::Posts => posts.view_index(),
+        Route::Post { slug } => posts.view_post(&slug),
         Route::NotFound => html! { <h1>{ "404" }</h1> },
     }
 }
@@ -62,7 +57,7 @@ impl Component for AppRouter {
 
     fn create(_: &Context<Self>) -> Self {
         Self {
-            posts_index_value: LoadState::Loading,
+            posts_index: LoadState::Loading,
         }
     }
 
@@ -78,7 +73,7 @@ impl Component for AppRouter {
     fn update(&mut self, _: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Ok(value) => {
-                self.posts_index_value = LoadState::Loaded(value);
+                self.posts_index = LoadState::Loaded(value);
                 true
             }
             Err(error) => {
@@ -89,16 +84,16 @@ impl Component for AppRouter {
     }
 
     fn view(&self, _: &Context<Self>) -> Html {
-        match &self.posts_index_value {
+        match &self.posts_index {
             LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
-            LoadState::Loaded(posts_index_value) => match PostsIndex::parse(posts_index_value) {
-                Ok(idx) => {
-                    let switch = move |routes: Route| switch(routes, &idx);
+            LoadState::Loaded(posts_index) => match PostsRouter::parse_index(posts_index) {
+                Ok(posts) => {
+                    let switch = move |routes: Route| switch(routes, &posts);
                     html! {
                         <BrowserRouter>
                             <Link<Route> to={Route::Home}>{ "Home" }</Link<Route>>
                             <span>{ " | " }</span>
-                            <Link<Route> to={Route::Posts}>{ "Post Index" }</Link<Route>>
+                            <Link<Route> to={Route::Posts}>{ "Posts Index" }</Link<Route>>
                             <span>{ " | " }</span>
                             <Link<Route> to={Route::About}>{ "About" }</Link<Route>>
                             <Switch<Route> render={switch} />

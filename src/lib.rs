@@ -3,7 +3,7 @@ use yew::prelude::*;
 
 mod app_router;
 mod markdown_page;
-mod posts_index;
+mod posts_router;
 
 use app_router::AppRouter;
 

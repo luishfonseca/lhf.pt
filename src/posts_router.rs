@@ -4,13 +4,14 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::app_router::Route;
+use crate::markdown_page::MarkdownPage;
 
-pub struct PostsIndex {
+pub struct PostsRouter {
     posts: HashMap<String, Vec<String>>,
 }
 
-impl PostsIndex {
-    pub fn parse(value: &Value) -> Result<Self, String> {
+impl PostsRouter {
+    pub fn parse_index(value: &Value) -> Result<Self, String> {
         let root = value
             .as_array()
             .ok_or("Expected array")?
@@ -23,14 +24,14 @@ impl PostsIndex {
             .as_array()
             .ok_or("Expected contents to be an array")?;
 
-        let posts = parse_posts_index(root.to_vec(), None)?;
+        let posts = parse_index(root.to_vec(), None)?;
 
         log::debug!("Built posts index: {:#?}", posts);
 
         Ok(Self { posts })
     }
 
-    pub fn get_path(&self, slug: &str) -> Option<String> {
+    fn get_path(&self, slug: &str) -> Option<String> {
         self.posts.get(slug).map(|atoms| {
             let mut path = "/content/posts".to_string();
 
@@ -43,25 +44,26 @@ impl PostsIndex {
         })
     }
 
-    pub fn html(&self) -> Html {
-        html! {
-            <>
-                <h1>{ "Posts Index" }</h1>
-                {
-                    for self.posts.keys().map(|slug| {
-                        html! {
-                            <div>
-                                <Link<Route> to={Route::Post { slug: slug.to_string() }}>{ slug }</Link<Route>>
-                            </div>
-                        }
-                    })
-                }
-            </>
+    pub fn view_post(&self, slug: &str) -> Html {
+        match self.get_path(slug) {
+            Some(path) => html! { <MarkdownPage path ={path} /> },
+            None => html! { <h1>{ "404" }</h1> },
         }
+    }
+
+    pub fn view_index(&self) -> Html {
+        html! { <>
+            <h1>{ "Posts Index" }</h1>
+            { for self.posts.keys().map(|slug| {
+                html! { <div>
+                    <Link<Route> to={Route::Post { slug: slug.to_string() }}>{ slug }</Link<Route>>
+                </div> }
+            })}
+        </> }
     }
 }
 
-fn parse_posts_index(
+fn parse_index(
     values: Vec<Value>,
     atoms: Option<Vec<String>>,
 ) -> Result<HashMap<String, Vec<String>>, String> {
@@ -92,7 +94,7 @@ fn parse_posts_index(
                     .as_array()
                     .ok_or("Expected contents to be an array")?;
 
-                let map2 = parse_posts_index(contents.to_vec(), Some(atoms))?;
+                let map2 = parse_index(contents.to_vec(), Some(atoms))?;
 
                 map.extend(map2);
             }
