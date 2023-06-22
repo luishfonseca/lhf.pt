@@ -19,8 +19,6 @@ pub struct AppRouter {
 pub enum Route {
     #[at("/")]
     Home,
-    #[at("/env")]
-    Environment,
     #[at("/about")]
     About,
     #[at("/post")]
@@ -35,7 +33,6 @@ pub enum Route {
 fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
-        Route::Environment => html! { <Environment /> },
         Route::About => html! { <MarkdownPage path ="/content/about.md" /> },
         Route::Posts => posts.view_index(),
         Route::Post { slug } => posts.view_post(&slug),
@@ -106,20 +103,5 @@ impl Component for AppRouter {
                 }
             },
         }
-    }
-}
-
-#[function_component(Environment)]
-fn environment() -> Html {
-    let navigator = use_navigator().unwrap();
-
-    let env = option_env!("CARGO_PROFILE").unwrap_or("UNKNOWN");
-
-    let onclick = Callback::from(move |_| navigator.push(&Route::Home));
-    html! {
-        <div>
-            <h1>{ env }</h1>
-            <button {onclick}>{ "Go Home" }</button>
-        </div>
     }
 }
