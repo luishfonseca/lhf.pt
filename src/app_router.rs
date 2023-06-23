@@ -23,9 +23,9 @@ pub enum Route {
     About,
     #[at("/tag/:tag")]
     Tag { tag: String },
-    #[at("/post")]
+    #[at("/posts")]
     Posts,
-    #[at("/post/:slug")]
+    #[at("/posts/:slug")]
     Post { slug: String },
     #[not_found]
     #[at("/404")]

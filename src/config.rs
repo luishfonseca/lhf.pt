@@ -3,6 +3,7 @@ use lazy_static::lazy_static;
 pub struct Config {
     pub dev: bool,
     pub posts_index_path: &'static str,
+    pub posts_prefix: &'static str,
     pub content_source_url: &'static str,
 }
 
@@ -16,7 +17,8 @@ impl Config {
         Self {
             dev,
 
-            posts_index_path: "post.index.txt",
+            posts_index_path: "posts.index.txt",
+            posts_prefix: "posts/",
 
             content_source_url: if dev {
                 "http://localhost:5003/"

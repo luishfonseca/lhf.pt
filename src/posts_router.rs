@@ -4,6 +4,7 @@ use yew_router::prelude::*;
 
 use crate::app_router::Route;
 use crate::markdown_page::MarkdownPage;
+use crate::config::CONFIG;
 
 pub struct PostsRouter {
     slug_to_path: HashMap<String, String>,
@@ -55,7 +56,7 @@ impl PostsRouter {
     fn get_path(&self, slug: &str) -> Option<String> {
         self.slug_to_path
             .get(slug)
-            .map(|path| "post/".to_string() + path)
+            .map(|path| CONFIG.posts_prefix.to_string() + path)
     }
 
     pub fn view_post(&self, slug: &str) -> Html {
