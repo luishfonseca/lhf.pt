@@ -90,7 +90,7 @@ impl Component for AppRouter {
                         <BrowserRouter>
                             <Link<Route> to={Route::Home}>{ "Home" }</Link<Route>>
                             <span>{ " | " }</span>
-                            <Link<Route> to={Route::Posts}>{ "Posts Index" }</Link<Route>>
+                            <Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>>
                             <span>{ " | " }</span>
                             <Link<Route> to={Route::About}>{ "About" }</Link<Route>>
                             <Switch<Route> render={switch} />
