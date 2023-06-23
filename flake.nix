@@ -87,7 +87,6 @@
               "index.html"
               "LICENSE"
               "README.md"
-              "content"
             ];
           };
 
@@ -101,8 +100,6 @@
             cp README.md $out/
             cp LICENSE $out/
             cp index.html $out/static
-            cp -r content $out/static
-            ${pkgs.tree}/bin/tree $out/static/content/posts -J > $out/static/content/posts.json
 
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
 
@@ -123,9 +120,17 @@
         ${pkgs.nodePackages.vercel}/bin/vercel deploy --prebuilt ${if prod then "--prod" else ""} ${if ci then "--token=$VERCEL_TOKEN" else ""}
       '';
 
-      serve = { prod, port }: pkgs.writeScript "serve" ''
-        ${pkgs.nodePackages.serve}/bin/serve ${dist { inherit prod; }}/static -l ${toString port} -s
-      '';
+      serve = { prod }: pkgs.writeScript "serve" (''
+        #!/usr/bin/env bash
+      '' + (if prod then "" else ''
+        while : ; do
+          ${pkgs.netcat}/bin/nc -z localhost 5003 >/dev/null 2>&1 && break
+          echo -ne "You need to also serve lhf-pt-content for this."\\r
+          sleep 1
+        done
+      '') + ''
+        ${pkgs.nodePackages.serve}/bin/serve ${dist { inherit prod; }}/static -l ${if prod then "5001" else "5002"} -s
+      '');
 
       mkApp = run: {
         type = "app";
@@ -148,7 +153,7 @@
       apps.deploy-dev = mkApp (deploy { prod = true; });
       apps.deploy-not-ci = mkApp (deploy { prod = false; ci = false; });
 
-      apps.serve-prod = mkApp (serve { prod = true; port = 5001; });
-      apps.serve-dev = mkApp (serve { prod = false; port = 5002; });
+      apps.serve-prod = mkApp (serve { prod = true; });
+      apps.serve-dev = mkApp (serve { prod = false; });
     });
 }
