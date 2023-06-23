@@ -65,14 +65,22 @@ impl PostsRouter {
         }
     }
 
-    pub fn view_index(&self) -> Html {
+    pub fn view_index(&self, tag: Option<&str>) -> Html {
+        let slugs = match tag {
+            Some(tag) => self.tag_to_slugs.get(tag).cloned().unwrap_or_default(),
+            None => self.slug_to_path.keys().cloned().collect(),
+        };
+
+        let title = match tag {
+            Some(tag) => format!("Posts tagged {}", tag),
+            None => "Posts".to_string(),
+        };
+
         html! { <>
-            <h1>{ "Posts Index" }</h1>
-            { for self.slug_to_path.keys().map(|slug| {
-                html! { <div>
-                    <Link<Route> to={Route::Post { slug: slug.to_string() }}>{ slug }</Link<Route>>
-                </div> }
-            })}
+            <h1>{ title }</h1>
+            { for slugs.iter().map(|slug| html! { <div>
+                <Link<Route> to={ Route::Post { slug: slug.to_string() }}>{ slug }</Link<Route>>
+            </div> })}
         </> }
     }
 }

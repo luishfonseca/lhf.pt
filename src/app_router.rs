@@ -21,6 +21,8 @@ pub enum Route {
     Home,
     #[at("/about")]
     About,
+    #[at("/tag/:tag")]
+    Tag { tag: String },
     #[at("/post")]
     Posts,
     #[at("/post/:slug")]
@@ -34,7 +36,8 @@ fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
         Route::About => html! { <MarkdownPage md={ "about" } /> },
-        Route::Posts => posts.view_index(),
+        Route::Tag { tag } => posts.view_index(Some(&tag)),
+        Route::Posts => posts.view_index(None),
         Route::Post { slug } => posts.view_post(&slug),
         Route::NotFound => html! { <h1>{ "404" }</h1> },
     }

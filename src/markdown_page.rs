@@ -1,3 +1,4 @@
+use crate::app_router::Route;
 use gloo_net::{http::Request, Error};
 use gray_matter::engine::YAML;
 use gray_matter::Matter;
@@ -5,11 +6,13 @@ use gray_matter::Pod;
 use pulldown_cmark::html::push_html;
 use pulldown_cmark::Parser;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
 use crate::config::CONFIG;
 
 pub struct PostData {
     title: String,
+    tags: Vec<String>,
     html: String,
 }
 
@@ -64,6 +67,7 @@ impl Component for MarkdownPage {
             Ok(md_content) => {
                 let mut post = PostData {
                     title: String::new(),
+                    tags: Vec::new(),
                     html: String::new(),
                 };
 
@@ -73,6 +77,12 @@ impl Component for MarkdownPage {
                 if let Some(Pod::Hash(data)) = fm.data {
                     if let Some(Pod::String(title)) = data.get("title") {
                         post.title = title.to_string();
+                    }
+
+                    if let Some(Pod::String(tags)) = data.get("tags") {
+                        for tag in tags.split(" ") {
+                            post.tags.push(tag.trim().to_string());
+                        }
                     }
                 }
 
@@ -96,6 +106,7 @@ impl Component for MarkdownPage {
                 let post_html = Html::from_html_unchecked(AttrValue::from(post.html.clone()));
                 html! { <>
                     <div id="title">{ &post.title }</div>
+                    <div id="tags">{ for post.tags.iter().map(|tag| html! { <div><Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>></div> }) }</div>
                     { post_html }
                 </> }
             }
