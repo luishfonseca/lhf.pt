@@ -2,6 +2,8 @@ use gloo_net::{http::Request, Error};
 use markdown::to_html;
 use yew::prelude::*;
 
+use crate::config::CONFIG;
+
 pub enum LoadState {
     Loading,
     Loaded(String),
@@ -9,13 +11,12 @@ pub enum LoadState {
 
 pub struct MarkdownPage {
     path_changed: bool,
-    always_update: bool,
     content: LoadState,
 }
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub path: AttrValue,
+    pub md: AttrValue,
 }
 
 async fn fetch_markdown(path: &str) -> Result<String, Error> {
@@ -30,18 +31,17 @@ impl Component for MarkdownPage {
         Self {
             path_changed: true,
             content: LoadState::Loading,
-            always_update: option_env!("CARGO_PROFILE").unwrap_or("unknown") == "dev",
         }
     }
 
     fn changed(&mut self, ctx: &Context<Self>, old_props: &Self::Properties) -> bool {
-        self.path_changed = ctx.props().path != old_props.path;
+        self.path_changed = ctx.props().md != old_props.md;
         self.path_changed
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, _: bool) {
-        if self.path_changed || self.always_update {
-            let path = ctx.props().path.to_string();
+        if self.path_changed || CONFIG.dev {
+            let path = CONFIG.content_source_url.to_string() + &ctx.props().md + ".md";
             let link = ctx.link().clone();
             wasm_bindgen_futures::spawn_local(async move {
                 link.send_message(fetch_markdown(&path).await.map(|md| to_html(&md)));

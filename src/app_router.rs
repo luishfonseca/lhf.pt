@@ -1,14 +1,14 @@
 use gloo_net::{http::Request, Error};
-use serde_json::Value;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::config::CONFIG;
 use crate::markdown_page::MarkdownPage;
 use crate::posts_router::PostsRouter;
 
 pub enum LoadState {
     Loading,
-    Loaded(Value),
+    Loaded(String),
 }
 
 pub struct AppRouter {
@@ -33,23 +33,20 @@ pub enum Route {
 fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
-        Route::About => html! { <MarkdownPage path ="/content/about.md" /> },
+        Route::About => html! { <MarkdownPage md={ "about" } /> },
         Route::Posts => posts.view_index(),
         Route::Post { slug } => posts.view_post(&slug),
         Route::NotFound => html! { <h1>{ "404" }</h1> },
     }
 }
 
-async fn fetch_posts_index() -> Result<Value, Error> {
-    Request::get("/content/posts.json")
-        .send()
-        .await?
-        .json()
-        .await
+async fn fetch_posts_index() -> Result<String, Error> {
+    let url = CONFIG.content_source_url.to_string() + CONFIG.posts_index_path;
+    Request::get(&url).send().await?.text().await
 }
 
 impl Component for AppRouter {
-    type Message = Result<Value, Error>;
+    type Message = Result<String, Error>;
     type Properties = ();
 
     fn create(_: &Context<Self>) -> Self {
