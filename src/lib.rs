@@ -4,6 +4,7 @@ use yew::prelude::*;
 mod app_router;
 mod markdown_page;
 mod posts_router;
+mod config;
 
 use app_router::AppRouter;
 
