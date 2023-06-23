@@ -3,8 +3,9 @@ use gloo_net::{http::Request, Error};
 use gray_matter::engine::YAML;
 use gray_matter::Matter;
 use gray_matter::Pod;
+use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::html::push_html;
-use pulldown_cmark::Parser;
+use pulldown_cmark::{Parser, Event, Tag};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -87,6 +88,16 @@ impl Component for MarkdownPage {
                 }
 
                 let md_parser = Parser::new(&fm.content);
+
+                let md_parser = md_parser.map(|event| match event {
+                    Event::Start(Tag::Heading(heading, id, classes)) => {
+                        let heading = heading as usize + 1;
+                        let heading = HeadingLevel::try_from(heading).unwrap_or(HeadingLevel::H6);
+                        Event::Start(Tag::Heading(heading, id, classes))
+                    }
+                    _ => event,
+                });
+
                 push_html(&mut post.html, md_parser);
 
                 self.content = LoadState::Loaded(post);
@@ -105,7 +116,7 @@ impl Component for MarkdownPage {
             LoadState::Loaded(post) => {
                 let post_html = Html::from_html_unchecked(AttrValue::from(post.html.clone()));
                 html! { <>
-                    <div id="title">{ &post.title }</div>
+                    <h1>{ &post.title }</h1>
                     <div id="tags">{ for post.tags.iter().map(|tag| html! { <div><Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>></div> }) }</div>
                     { post_html }
                 </> }
