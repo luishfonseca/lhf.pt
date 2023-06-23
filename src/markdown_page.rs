@@ -1,12 +1,21 @@
 use gloo_net::{http::Request, Error};
-use markdown::to_html;
+use gray_matter::engine::YAML;
+use gray_matter::Matter;
+use gray_matter::Pod;
+use pulldown_cmark::html::push_html;
+use pulldown_cmark::Parser;
 use yew::prelude::*;
 
 use crate::config::CONFIG;
 
+pub struct PostData {
+    title: String,
+    html: String,
+}
+
 pub enum LoadState {
     Loading,
-    Loaded(String),
+    Loaded(PostData),
 }
 
 pub struct MarkdownPage {
@@ -44,7 +53,7 @@ impl Component for MarkdownPage {
             let path = CONFIG.content_source_url.to_string() + &ctx.props().md + ".md";
             let link = ctx.link().clone();
             wasm_bindgen_futures::spawn_local(async move {
-                link.send_message(fetch_markdown(&path).await.map(|md| to_html(&md)));
+                link.send_message(fetch_markdown(&path).await);
             });
             self.path_changed = false;
         }
@@ -52,8 +61,25 @@ impl Component for MarkdownPage {
 
     fn update(&mut self, _: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Ok(content) => {
-                self.content = LoadState::Loaded(content);
+            Ok(md_content) => {
+                let mut post = PostData {
+                    title: String::new(),
+                    html: String::new(),
+                };
+
+                let fm_parser = Matter::<YAML>::new();
+                let fm = fm_parser.parse(&md_content);
+
+                if let Some(Pod::Hash(data)) = fm.data {
+                    if let Some(Pod::String(title)) = data.get("title") {
+                        post.title = title.to_string();
+                    }
+                }
+
+                let md_parser = Parser::new(&fm.content);
+                push_html(&mut post.html, md_parser);
+
+                self.content = LoadState::Loaded(post);
                 true
             }
             Err(error) => {
@@ -66,9 +92,12 @@ impl Component for MarkdownPage {
     fn view(&self, _: &Context<Self>) -> Html {
         match &self.content {
             LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
-            LoadState::Loaded(content) => {
-                let parsed = Html::from_html_unchecked(AttrValue::from(content.clone()));
-                html! { {parsed} }
+            LoadState::Loaded(post) => {
+                let post_html = Html::from_html_unchecked(AttrValue::from(post.html.clone()));
+                html! { <>
+                    <div id="title">{ &post.title }</div>
+                    { post_html }
+                </> }
             }
         }
     }
