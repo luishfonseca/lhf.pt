@@ -3,7 +3,6 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::config::CONFIG;
-use crate::markdown_page::MarkdownPage;
 use crate::posts_router::PostsRouter;
 
 pub enum LoadState {
@@ -84,13 +83,15 @@ impl Component for App {
                 Ok(posts) => {
                     html! {
                         <BrowserRouter>
-                            <nav class="container-fluid">
-                                <ul>
-                                    <li><strong>{ "LHF." }</strong></li>
-                                </ul>
+                            <br/>
+                            <nav class="container">
                                 <ul>
                                     <li><Link<Route> to={Route::Home}>{ "Home" }</Link<Route>></li>
                                     <li><Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>></li>
+                                </ul>
+
+                                <ul>
+                                    <li><strong>{ "LHF." }</strong></li>
                                 </ul>
                             </nav>
 
