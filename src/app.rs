@@ -4,6 +4,7 @@ use yew_router::prelude::*;
 
 use crate::config::CONFIG;
 use crate::posts_router::PostsRouter;
+use crate::markdown_page::MarkdownPage;
 
 pub enum LoadState {
     Loading,
@@ -31,7 +32,7 @@ pub enum Route {
 
 fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
-        Route::Home => html! { <h1>{ "Home" }</h1> },
+        Route::Home => html! { <MarkdownPage md="about" /> },
         Route::Tag { tag } => posts.view_index(Some(&tag)),
         Route::Posts => posts.view_index(None),
         Route::Post { slug } => posts.view_post(&slug),
