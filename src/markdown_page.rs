@@ -112,7 +112,7 @@ impl Component for MarkdownPage {
 
     fn view(&self, _: &Context<Self>) -> Html {
         match &self.content {
-            LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
+            LoadState::Loading => html! { },
             LoadState::Loaded(post) => {
                 html! { <>
                     <h1>{ &post.title }</h1>

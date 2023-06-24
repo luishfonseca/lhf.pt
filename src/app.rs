@@ -82,7 +82,7 @@ impl Component for App {
 
     fn view(&self, _: &Context<Self>) -> Html {
         match &self.posts_index {
-            LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
+            LoadState::Loading => html! { },
             LoadState::Loaded(posts_index) => match PostsRouter::parse_index(posts_index) {
                 Ok(posts) => {
                     let switch = move |routes: Route| switch(routes, &posts);
