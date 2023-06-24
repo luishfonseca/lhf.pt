@@ -85,22 +85,24 @@ impl Component for App {
             LoadState::Loading => html! { },
             LoadState::Loaded(posts_index) => match PostsRouter::parse_index(posts_index) {
                 Ok(posts) => {
-                    let switch = move |routes: Route| switch(routes, &posts);
-                    html! { <>
-                        <header>
-                            <Link<Route> to={Route::Home}>{ "Home" }</Link<Route>>
-                            <span>{ " | " }</span>
-                            <Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>>
-                            <span>{ " | " }</span>
-                            <Link<Route> to={Route::About}>{ "About" }</Link<Route>>
-                        </header>
-                        
-                        <main class="container">
-                            <BrowserRouter>
-                                <Switch<Route> render={switch} />
-                            </BrowserRouter>
-                        </main>
-                    </> }
+                    html! {
+                        <BrowserRouter>
+                            <nav class="container-fluid">
+                                <ul>
+                                    <li><strong>{ "LHF." }</strong></li>
+                                </ul>
+                                <ul>
+                                    <li><Link<Route> to={Route::Home}>{ "Home" }</Link<Route>></li>
+                                    <li><Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>></li>
+                                    <li><Link<Route> to={Route::About}>{ "About" }</Link<Route>></li>
+                                </ul>
+                            </nav>
+
+                            <main class="container">
+                                <Switch<Route> render={move |routes: Route| switch(routes, &posts)} />
+                            </main>
+                        </BrowserRouter>
+                    }
                 }
                 Err(error) => {
                     log::error!("Failed to parse posts index: {}", error.to_string());
