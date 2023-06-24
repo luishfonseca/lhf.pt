@@ -114,20 +114,23 @@ impl Component for MarkdownPage {
         match &self.content {
             LoadState::Loading => html! { },
             LoadState::Loaded(post) => {
-                html! { <>
-                    <h1>{ &post.title }</h1>
+                html! {
+                    <article>
+                        <header>
+                            <h1>{ &post.title }</h1>
 
-                    if post.tags.len() > 0 {
-                        <span>{"Tags:"}</span>
-                        { for post.tags.iter().map(|tag| html! { <>
-                            <span>{ " " }</span>
-                            <Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>>
-                        </> })}
-                        <hr/>
-                    }
+                            if post.tags.len() > 0 {
+                                <span>{"Tags:"}</span>
+                                { for post.tags.iter().map(|tag| html! { <>
+                                    <span>{ " " }</span>
+                                    <Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>>
+                                </> })}
+                            }
+                        </header>
 
-                    { Html::from_html_unchecked(AttrValue::from(post.html.clone())) }
-                </> }
+                        { Html::from_html_unchecked(AttrValue::from(post.html.clone())) }
+                    </article>
+               }
             }
         }
     }
