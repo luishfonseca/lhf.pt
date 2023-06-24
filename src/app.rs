@@ -19,8 +19,6 @@ pub struct App {
 pub enum Route {
     #[at("/")]
     Home,
-    #[at("/about")]
-    About,
     #[at("/tag/:tag")]
     Tag { tag: String },
     #[at("/posts")]
@@ -35,7 +33,6 @@ pub enum Route {
 fn switch(routes: Route, posts: &PostsRouter) -> Html {
     match routes {
         Route::Home => html! { <h1>{ "Home" }</h1> },
-        Route::About => html! { <MarkdownPage md={ "about" } /> },
         Route::Tag { tag } => posts.view_index(Some(&tag)),
         Route::Posts => posts.view_index(None),
         Route::Post { slug } => posts.view_post(&slug),
@@ -94,7 +91,6 @@ impl Component for App {
                                 <ul>
                                     <li><Link<Route> to={Route::Home}>{ "Home" }</Link<Route>></li>
                                     <li><Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>></li>
-                                    <li><Link<Route> to={Route::About}>{ "About" }</Link<Route>></li>
                                 </ul>
                             </nav>
 
