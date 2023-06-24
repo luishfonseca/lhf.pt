@@ -3,9 +3,9 @@ use gloo_net::{http::Request, Error};
 use gray_matter::engine::YAML;
 use gray_matter::Matter;
 use gray_matter::Pod;
-use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::html::push_html;
-use pulldown_cmark::{Parser, Event, Tag};
+use pulldown_cmark::HeadingLevel;
+use pulldown_cmark::{Event, Parser, Tag};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -114,11 +114,19 @@ impl Component for MarkdownPage {
         match &self.content {
             LoadState::Loading => html! { <h1>{ "Loading..." }</h1> },
             LoadState::Loaded(post) => {
-                let post_html = Html::from_html_unchecked(AttrValue::from(post.html.clone()));
                 html! { <>
                     <h1>{ &post.title }</h1>
-                    <div id="tags">{ for post.tags.iter().map(|tag| html! { <div><Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>></div> }) }</div>
-                    { post_html }
+
+                    if post.tags.len() > 0 {
+                        <span>{"Tags:"}</span>
+                        { for post.tags.iter().map(|tag| html! { <>
+                            <span>{ " " }</span>
+                            <Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>>
+                        </> })}
+                        <hr/>
+                    }
+
+                    { Html::from_html_unchecked(AttrValue::from(post.html.clone())) }
                 </> }
             }
         }
