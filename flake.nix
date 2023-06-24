@@ -20,6 +20,11 @@
       inputs.flake-utils.follows = "utils";
       inputs.rust-overlay.follows = "rust-overlay";
     };
+
+    picocss = {
+      url = "github:picocss/pico/v2.0.0-alpha1";
+      flake = false;
+    };
   };
 
   outputs = { ... } @ inputs: inputs.utils.lib.eachDefaultSystem (system:
@@ -91,6 +96,10 @@
             ];
           };
 
+          patchPhase = ''
+            sed -i 's|@pico|${inputs.picocss}/scss/pico|g' style.scss
+          '';
+
           installPhase = ''
             mkdir -p $out/static
 
@@ -103,6 +112,7 @@
             cp index.html $out/static
 
             ${pkgs.dart-sass}/bin/sass style.scss:$out/static/style.css ${if prod then "--no-source-map --style=compressed" else ""} 
+
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
           '' + (if prod then ''
             ${pkgs.binaryen}/bin/wasm-opt -Oz $out/static/lhf_pt_bg.wasm -o $out/static/lhf_pt_bg.wasm.opt

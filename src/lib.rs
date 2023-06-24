@@ -20,7 +20,9 @@ impl Component for App {
 
     fn view(&self, _: &Context<Self>) -> Html {
         html! {
-            <AppRouter />
+            <main class="container">
+                <AppRouter />
+            </main>
         }
     }
 }
