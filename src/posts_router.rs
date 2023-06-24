@@ -3,34 +3,51 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::app::Route;
-use crate::markdown_page::MarkdownPage;
 use crate::config::CONFIG;
+use crate::markdown_page::MarkdownPage;
+
+pub struct PostMeta {
+    title: String,
+    path: String,
+    date: String,
+}
 
 pub struct PostsRouter {
-    slug_to_path: HashMap<String, String>,
+    slug_to_meta: HashMap<String, PostMeta>,
     tag_to_slugs: HashMap<String, Vec<String>>,
 }
 
 impl PostsRouter {
     pub fn parse_index(index: &String) -> Result<Self, String> {
-        let mut slug_to_path = HashMap::new();
+        let mut slug_to_meta = HashMap::new();
         let mut tag_to_slugs = HashMap::new();
 
         for post in index.lines() {
-            let parts = post.split(":").collect::<Vec<&str>>();
+            let (post_meta, title) = post
+                .split_once(" ")
+                .ok_or("Invalid post index: missing title")?;
 
-            slug_to_path.insert(
-                parts
-                    .get(1)
-                    .ok_or("Invalid post index: missing slug")?
-                    .to_string(),
-                parts
-                    .get(0)
-                    .ok_or("Invalid post index: missing path")?
-                    .to_string(),
+            let parts = post_meta.split(":").collect::<Vec<&str>>();
+            let date = parts
+                .get(0)
+                .ok_or("Invalid post index: missing date")?;
+            let path = parts
+                .get(1)
+                .ok_or("Invalid post index: missing path")?;
+            let slug = parts
+                .get(2)
+                .ok_or("Invalid post index: missing slug")?;
+
+            slug_to_meta.insert(
+                slug.to_string(),
+                PostMeta {
+                    title: title.to_string(),
+                    path: path.to_string(),
+                    date: date.to_string(),
+                },
             );
 
-            let tags = parts.get(2..parts.len()).unwrap_or_default();
+            let tags = parts.get(3..parts.len()).unwrap_or_default();
             for tag in tags {
                 let tag = tag.trim();
                 if tag.is_empty() {
@@ -39,24 +56,21 @@ impl PostsRouter {
 
                 let slugs = tag_to_slugs.entry(tag.to_string()).or_insert_with(Vec::new);
                 slugs.push(
-                    parts
-                        .get(1)
-                        .ok_or("Invalid post index: missing slug")?
-                        .to_string(),
+                    slug.to_string(),
                 );
             }
         }
 
         Ok(Self {
-            slug_to_path,
+            slug_to_meta,
             tag_to_slugs,
         })
     }
 
     fn get_path(&self, slug: &str) -> Option<String> {
-        self.slug_to_path
+        self.slug_to_meta
             .get(slug)
-            .map(|path| CONFIG.posts_prefix.to_string() + path)
+            .map(|meta| CONFIG.posts_prefix.to_string() + &meta.path)
     }
 
     pub fn view_post(&self, slug: &str) -> Html {
@@ -69,19 +83,25 @@ impl PostsRouter {
     pub fn view_index(&self, tag: Option<&str>) -> Html {
         let slugs = match tag {
             Some(tag) => self.tag_to_slugs.get(tag).cloned().unwrap_or_default(),
-            None => self.slug_to_path.keys().cloned().collect(),
+            None => self.slug_to_meta.keys().cloned().collect(),
         };
 
-        let title = match tag {
+        let index_title = match tag {
             Some(tag) => format!("Posts tagged {}", tag),
             None => "Posts".to_string(),
         };
 
         html! { <>
-            <h1>{ title }</h1>
-            { for slugs.iter().map(|slug| html! { <div>
-                <Link<Route> to={ Route::Post { slug: slug.to_string() }}>{ slug }</Link<Route>>
-            </div> })}
+            <h1>{ index_title }</h1>
+            { for slugs.iter().map(|slug| {
+                let meta = self.slug_to_meta.get(slug).unwrap();
+                html! {
+                    <div>
+                        { &meta.date }
+                        { " - " }
+                        <Link<Route> to={ Route::Post { slug: slug.to_string() }}>{ &meta.title }</Link<Route>>
+                    </div>
+            }})}
         </> }
     }
 }
