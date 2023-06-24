@@ -1,31 +1,11 @@
 use wasm_bindgen::prelude::*;
-use yew::prelude::*;
 
-mod app_router;
+mod app;
 mod markdown_page;
 mod posts_router;
 mod config;
 
-use app_router::AppRouter;
-
-pub struct App;
-
-impl Component for App {
-    type Message = ();
-    type Properties = ();
-
-    fn create(_: &Context<Self>) -> Self {
-        Self {}
-    }
-
-    fn view(&self, _: &Context<Self>) -> Html {
-        html! {
-            <main class="container">
-                <AppRouter />
-            </main>
-        }
-    }
-}
+use app::App;
 
 #[wasm_bindgen(start)]
 pub fn main() {

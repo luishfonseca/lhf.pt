@@ -11,7 +11,7 @@ pub enum LoadState {
     Loaded(String),
 }
 
-pub struct AppRouter {
+pub struct App {
     posts_index: LoadState,
 }
 
@@ -48,7 +48,7 @@ async fn fetch_posts_index() -> Result<String, Error> {
     Request::get(&url).send().await?.text().await
 }
 
-impl Component for AppRouter {
+impl Component for App {
     type Message = Result<String, Error>;
     type Properties = ();
 
@@ -86,16 +86,21 @@ impl Component for AppRouter {
             LoadState::Loaded(posts_index) => match PostsRouter::parse_index(posts_index) {
                 Ok(posts) => {
                     let switch = move |routes: Route| switch(routes, &posts);
-                    html! {
-                        <BrowserRouter>
+                    html! { <>
+                        <header>
                             <Link<Route> to={Route::Home}>{ "Home" }</Link<Route>>
                             <span>{ " | " }</span>
                             <Link<Route> to={Route::Posts}>{ "Posts" }</Link<Route>>
                             <span>{ " | " }</span>
                             <Link<Route> to={Route::About}>{ "About" }</Link<Route>>
-                            <Switch<Route> render={switch} />
-                        </BrowserRouter>
-                    }
+                        </header>
+                        
+                        <main class="container">
+                            <BrowserRouter>
+                                <Switch<Route> render={switch} />
+                            </BrowserRouter>
+                        </main>
+                    </> }
                 }
                 Err(error) => {
                     log::error!("Failed to parse posts index: {}", error.to_string());

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::app_router::Route;
+use crate::app::Route;
 use crate::markdown_page::MarkdownPage;
 use crate::config::CONFIG;
 
