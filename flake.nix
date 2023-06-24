@@ -85,6 +85,7 @@
             root = ./.;
             include = [
               "index.html"
+              "style.scss"
               "LICENSE"
               "README.md"
             ];
@@ -101,8 +102,8 @@
             cp LICENSE $out/
             cp index.html $out/static
 
+            ${pkgs.dart-sass}/bin/sass style.scss:$out/static/style.css ${if prod then "--no-source-map --style=compressed" else ""} 
             ${bindgen}/bin/wasm-bindgen --target web --no-typescript --out-dir $out/static ${wasm}/lib/lhf_pt.wasm
-
           '' + (if prod then ''
             ${pkgs.binaryen}/bin/wasm-opt -Oz $out/static/lhf_pt_bg.wasm -o $out/static/lhf_pt_bg.wasm.opt
             mv $out/static/lhf_pt_bg.wasm.opt $out/static/lhf_pt_bg.wasm
@@ -140,7 +141,7 @@
     in
     rec {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [ rust twiggy xsel ];
+        buildInputs = with pkgs; [ rust twiggy xsel dart-sass ];
       };
 
       packages.lhf-pt-wasm-prod = buildWasm { prod = true; };
