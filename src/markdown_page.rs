@@ -162,7 +162,7 @@ impl Component for MarkdownPage {
                     }
 
                     Event::Start(Tag::CodeBlock(Fenced(ext))) => {
-                        if ext == "".into() {
+                        if ss.find_syntax_by_extension(&ext).is_none() {
                             Event::Start(Tag::CodeBlock(Fenced(ext)))
                         } else {
                             in_code = true;
