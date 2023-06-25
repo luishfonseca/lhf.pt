@@ -13,6 +13,7 @@ use crate::config::CONFIG;
 
 pub struct PostData {
     title: String,
+    description: Option<String>,
     tags: Vec<String>,
     html: String,
 }
@@ -68,6 +69,7 @@ impl Component for MarkdownPage {
             Ok(md_content) => {
                 let mut post = PostData {
                     title: String::new(),
+                    description: None,
                     tags: Vec::new(),
                     html: String::new(),
                 };
@@ -78,6 +80,10 @@ impl Component for MarkdownPage {
                 if let Some(Pod::Hash(data)) = fm.data {
                     if let Some(Pod::String(title)) = data.get("title") {
                         post.title = title.to_string();
+                    }
+
+                    if let Some(Pod::String(description)) = data.get("description") {
+                        post.description = Some(description.to_string());
                     }
 
                     if let Some(Pod::String(tags)) = data.get("tags") {
@@ -117,7 +123,12 @@ impl Component for MarkdownPage {
                 html! {
                     <article>
                         <header>
-                            <h1>{ &post.title }</h1>
+                            <hgroup>
+                                <h1>{ &post.title }</h1>
+                                if let Some(description) = &post.description {
+                                    <p>{ description }</p>
+                                }
+                            </hgroup>
 
                             if post.tags.len() > 0 {
                                 <span>{"Tags:"}</span>
