@@ -95,12 +95,68 @@ impl Component for MarkdownPage {
 
                 let md_parser = Parser::new(&fm.content);
 
+                let mut in_quote = false;
+                let mut in_citation = false;
+
                 let md_parser = md_parser.map(|event| match event {
                     Event::Start(Tag::Heading(heading, id, classes)) => {
                         let heading = heading as usize + 1;
                         let heading = HeadingLevel::try_from(heading).unwrap_or(HeadingLevel::H6);
                         Event::Start(Tag::Heading(heading, id, classes))
                     }
+
+                    Event::Start(Tag::BlockQuote) => {
+                        in_quote = true;
+                        event
+                    }
+
+                    Event::End(Tag::BlockQuote) => {
+                        in_quote = false;
+                        event
+                    }
+
+                    Event::Start(Tag::List(_)) => {
+                        if in_quote {
+                            Event::Start(Tag::Paragraph)
+                        } else {
+                            event
+                        }
+                    }
+
+                    Event::End(Tag::List(_)) => {
+                        if in_quote {
+                            Event::End(Tag::Paragraph)
+                        } else {
+                            event
+                        }
+                    }
+
+                    Event::Start(Tag::Item) => {
+                        if in_quote {
+                            in_citation = true;
+                            Event::Start(Tag::Paragraph)
+                        } else {
+                            event
+                        }
+                    }
+
+                    Event::End(Tag::Item) => {
+                        if in_citation {
+                            in_citation = false;
+                            Event::End(Tag::Paragraph)
+                        } else {
+                            event
+                        }
+                    }
+
+                    Event::Text(text) => {
+                        if in_citation {
+                            Event::Html(("<footer><cite>— ".to_string() + &text + "</cite>").into())
+                        } else {
+                            Event::Text(text)
+                        }
+                    }
+
                     _ => event,
                 });
 
@@ -118,30 +174,30 @@ impl Component for MarkdownPage {
 
     fn view(&self, _: &Context<Self>) -> Html {
         match &self.content {
-            LoadState::Loading => html! { },
+            LoadState::Loading => html! {},
             LoadState::Loaded(post) => {
                 html! {
-                    <article>
-                        <header>
-                            <hgroup>
-                                <h1>{ &post.title }</h1>
-                                if let Some(description) = &post.description {
-                                    <p>{ description }</p>
-                                }
-                            </hgroup>
+                     <article>
+                         <header>
+                             <hgroup>
+                                 <h1>{ &post.title }</h1>
+                                 if let Some(description) = &post.description {
+                                     <p>{ description }</p>
+                                 }
+                             </hgroup>
 
-                            if post.tags.len() > 0 {
-                                <span>{"Tags:"}</span>
-                                { for post.tags.iter().map(|tag| html! { <>
-                                    <span>{ " " }</span>
-                                    <Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>>
-                                </> })}
-                            }
-                        </header>
+                             if post.tags.len() > 0 {
+                                 <span>{"Tags:"}</span>
+                                 { for post.tags.iter().map(|tag| html! { <>
+                                     <span>{ " " }</span>
+                                     <Link<Route> to={ Route::Tag { tag: tag.to_string() }}>{ tag }</Link<Route>>
+                                 </> })}
+                             }
+                         </header>
 
-                        { Html::from_html_unchecked(AttrValue::from(post.html.clone())) }
-                    </article>
-               }
+                         { Html::from_html_unchecked(AttrValue::from(post.html.clone())) }
+                     </article>
+                }
             }
         }
     }
