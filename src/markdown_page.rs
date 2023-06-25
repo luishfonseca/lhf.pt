@@ -5,7 +5,10 @@ use gray_matter::Matter;
 use gray_matter::Pod;
 use pulldown_cmark::html::push_html;
 use pulldown_cmark::HeadingLevel;
-use pulldown_cmark::{Event, Parser, Tag};
+use pulldown_cmark::{CodeBlockKind::Fenced, Event, Parser, Tag};
+use syntect::highlighting::ThemeSet;
+use syntect::html::highlighted_html_for_string;
+use syntect::parsing::SyntaxSet;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -95,8 +98,17 @@ impl Component for MarkdownPage {
 
                 let md_parser = Parser::new(&fm.content);
 
+                let mut theme_cursor = std::io::Cursor::new(include_bytes!("../rose-pine.tmTheme"));
+                let theme = ThemeSet::load_from_reader(&mut theme_cursor).unwrap();
+                let ss = SyntaxSet::load_defaults_newlines();
+
                 let mut in_quote = false;
                 let mut in_citation = false;
+                let mut in_code = false;
+
+                let mut to_highlight = String::new();
+
+                let event_none = Event::Html("".into());
 
                 let md_parser = md_parser.map(|event| match event {
                     Event::Start(Tag::Heading(heading, id, classes)) => {
@@ -117,7 +129,7 @@ impl Component for MarkdownPage {
 
                     Event::Start(Tag::List(_)) => {
                         if in_quote {
-                            Event::Start(Tag::Paragraph)
+                            event_none.clone()
                         } else {
                             event
                         }
@@ -125,7 +137,7 @@ impl Component for MarkdownPage {
 
                     Event::End(Tag::List(_)) => {
                         if in_quote {
-                            Event::End(Tag::Paragraph)
+                            event_none.clone()
                         } else {
                             event
                         }
@@ -134,7 +146,7 @@ impl Component for MarkdownPage {
                     Event::Start(Tag::Item) => {
                         if in_quote {
                             in_citation = true;
-                            Event::Start(Tag::Paragraph)
+                            event_none.clone()
                         } else {
                             event
                         }
@@ -143,15 +155,44 @@ impl Component for MarkdownPage {
                     Event::End(Tag::Item) => {
                         if in_citation {
                             in_citation = false;
-                            Event::End(Tag::Paragraph)
+                            event_none.clone()
                         } else {
                             event
+                        }
+                    }
+
+                    Event::Start(Tag::CodeBlock(Fenced(ext))) => {
+                        if ext == "".into() {
+                            Event::Start(Tag::CodeBlock(Fenced(ext)))
+                        } else {
+                            in_code = true;
+                            event_none.clone()
+                        }
+                    }
+
+                    Event::End(Tag::CodeBlock(Fenced(ext))) => {
+                        if !in_code {
+                            Event::End(Tag::CodeBlock(Fenced(ext)))
+                        } else {
+                            let syntax = ss.find_syntax_by_extension(&ext).unwrap();
+                            let html =
+                                highlighted_html_for_string(&to_highlight, &ss, &syntax, &theme)
+                                    .unwrap();
+
+                            in_code = false;
+                            to_highlight.clear();
+                            Event::Html(
+                                ("<div class=\"code\">".to_string() + &html + "</div>").into(),
+                            )
                         }
                     }
 
                     Event::Text(text) => {
                         if in_citation {
                             Event::Html(("<footer><cite>— ".to_string() + &text + "</cite>").into())
+                        } else if in_code {
+                            to_highlight.push_str(&text);
+                            event_none.clone()
                         } else {
                             Event::Text(text)
                         }

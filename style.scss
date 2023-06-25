@@ -63,6 +63,7 @@
     // --pico-modal-overlay-background-color: rgba(8, 9, 10, 0.75);
     // --pico-progress-background-color: #202632;
 }
+
 body::-webkit-scrollbar {
     display: none;
 }
@@ -70,4 +71,11 @@ body::-webkit-scrollbar {
 body {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+div.code>pre {
+    display: block;
+    padding: var(--pico-spacing);
+    background: none;
+    line-height: var(--pico-line-height);
 }

@@ -69,7 +69,7 @@
         cargoArtifacts = deps { inherit prod; };
         src = inputs.nix-filter.lib.filter {
           root = ./.;
-          include = [ "Cargo.toml" "Cargo.lock" "src" ];
+          include = [ "Cargo.toml" "Cargo.lock" "src" "rose-pine.tmTheme" ];
         };
       });
 
