@@ -23,7 +23,7 @@ impl Config {
             content_source_url: if dev {
                 "http://localhost:5003/"
             } else {
-                "https://cdn.jsdelivr.net/gh/luishfonseca/lhf.pt-content/content/"
+                "https://raw.githubusercontent.com/luishfonseca/lhf.pt-content/main/content/"
             },
         }
     }
