@@ -29,8 +29,8 @@ pub enum LoadState {
 pub struct MarkdownPage {
     path_changed: bool,
     content: LoadState,
-    syntect_syntaxset: SyntaxSet,
-    syntect_theme: Theme,
+    syntect_syntaxset: Option<SyntaxSet>,
+    syntect_theme: Option<Theme>,
 }
 
 #[derive(Properties, PartialEq)]
@@ -47,24 +47,11 @@ impl Component for MarkdownPage {
     type Properties = Props;
 
     fn create(_: &Context<Self>) -> Self {
-        let mut theme_reader = std::io::Cursor::new(include_bytes!("../assets/rose-pine.tmTheme"));
-        let theme = ThemeSet::load_from_reader(&mut theme_reader).unwrap();
-        let mut ss = SyntaxSet::load_defaults_newlines().into_builder();
-        ss.add(
-            SyntaxDefinition::load_from_str(
-                include_str!("../assets/nix.sublime-syntax"),
-                true,
-                None,
-            )
-            .unwrap(),
-        );
-        let ss = ss.build();
-
         Self {
             path_changed: true,
             content: LoadState::Loading,
-            syntect_syntaxset: ss,
-            syntect_theme: theme,
+            syntect_syntaxset: None,
+            syntect_theme: None,
         }
     }
 
@@ -175,8 +162,23 @@ impl Component for MarkdownPage {
                     }
 
                     Event::Start(Tag::CodeBlock(Fenced(ext))) => {
+                        if self.syntect_syntaxset.is_none() {
+                            let mut ss = SyntaxSet::load_defaults_newlines().into_builder();
+                            ss.add(
+                                SyntaxDefinition::load_from_str(
+                                    include_str!("../assets/nix.sublime-syntax"),
+                                    true,
+                                    None,
+                                )
+                                .unwrap(),
+                            );
+                            self.syntect_syntaxset = Some(ss.build());
+                        }
+
                         if self
                             .syntect_syntaxset
+                            .as_ref()
+                            .unwrap()
                             .find_syntax_by_extension(&ext)
                             .is_none()
                         {
@@ -188,18 +190,27 @@ impl Component for MarkdownPage {
                     }
 
                     Event::End(Tag::CodeBlock(Fenced(ext))) => {
+                        if self.syntect_theme.is_none() {
+                            let mut theme_reader =
+                                std::io::Cursor::new(include_bytes!("../assets/rose-pine.tmTheme"));
+                            self.syntect_theme =
+                                Some(ThemeSet::load_from_reader(&mut theme_reader).unwrap());
+                        }
+
                         if !in_code {
                             Event::End(Tag::CodeBlock(Fenced(ext)))
                         } else {
                             let syntax = self
                                 .syntect_syntaxset
+                                .as_ref()
+                                .unwrap()
                                 .find_syntax_by_extension(&ext)
                                 .unwrap();
                             let html = highlighted_html_for_string(
                                 &to_highlight,
-                                &self.syntect_syntaxset,
+                                &self.syntect_syntaxset.as_ref().unwrap(),
                                 &syntax,
-                                &self.syntect_theme,
+                                &self.syntect_theme.as_ref().unwrap(),
                             )
                             .unwrap();
 
