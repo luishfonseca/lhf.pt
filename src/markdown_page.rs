@@ -6,9 +6,9 @@ use gray_matter::Pod;
 use pulldown_cmark::html::push_html;
 use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::{CodeBlockKind::Fenced, Event, Parser, Tag};
-use syntect::highlighting::ThemeSet;
+use syntect::highlighting::{Theme, ThemeSet};
 use syntect::html::highlighted_html_for_string;
-use syntect::parsing::SyntaxSet;
+use syntect::parsing::{SyntaxDefinition, SyntaxSet};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -29,6 +29,8 @@ pub enum LoadState {
 pub struct MarkdownPage {
     path_changed: bool,
     content: LoadState,
+    syntect_syntaxset: SyntaxSet,
+    syntect_theme: Theme,
 }
 
 #[derive(Properties, PartialEq)]
@@ -45,9 +47,24 @@ impl Component for MarkdownPage {
     type Properties = Props;
 
     fn create(_: &Context<Self>) -> Self {
+        let mut theme_reader = std::io::Cursor::new(include_bytes!("../assets/rose-pine.tmTheme"));
+        let theme = ThemeSet::load_from_reader(&mut theme_reader).unwrap();
+        let mut ss = SyntaxSet::load_defaults_newlines().into_builder();
+        ss.add(
+            SyntaxDefinition::load_from_str(
+                include_str!("../assets/nix.sublime-syntax"),
+                true,
+                None,
+            )
+            .unwrap(),
+        );
+        let ss = ss.build();
+
         Self {
             path_changed: true,
             content: LoadState::Loading,
+            syntect_syntaxset: ss,
+            syntect_theme: theme,
         }
     }
 
@@ -97,10 +114,6 @@ impl Component for MarkdownPage {
                 }
 
                 let md_parser = Parser::new(&fm.content);
-
-                let mut theme_cursor = std::io::Cursor::new(include_bytes!("../rose-pine.tmTheme"));
-                let theme = ThemeSet::load_from_reader(&mut theme_cursor).unwrap();
-                let ss = SyntaxSet::load_defaults_newlines();
 
                 let mut in_quote = false;
                 let mut in_citation = false;
@@ -162,7 +175,11 @@ impl Component for MarkdownPage {
                     }
 
                     Event::Start(Tag::CodeBlock(Fenced(ext))) => {
-                        if ss.find_syntax_by_extension(&ext).is_none() {
+                        if self
+                            .syntect_syntaxset
+                            .find_syntax_by_extension(&ext)
+                            .is_none()
+                        {
                             Event::Start(Tag::CodeBlock(Fenced(ext)))
                         } else {
                             in_code = true;
@@ -174,10 +191,17 @@ impl Component for MarkdownPage {
                         if !in_code {
                             Event::End(Tag::CodeBlock(Fenced(ext)))
                         } else {
-                            let syntax = ss.find_syntax_by_extension(&ext).unwrap();
-                            let html =
-                                highlighted_html_for_string(&to_highlight, &ss, &syntax, &theme)
-                                    .unwrap();
+                            let syntax = self
+                                .syntect_syntaxset
+                                .find_syntax_by_extension(&ext)
+                                .unwrap();
+                            let html = highlighted_html_for_string(
+                                &to_highlight,
+                                &self.syntect_syntaxset,
+                                &syntax,
+                                &self.syntect_theme,
+                            )
+                            .unwrap();
 
                             in_code = false;
                             to_highlight.clear();
