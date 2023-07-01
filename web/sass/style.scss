@@ -1,1 +1,81 @@
 @use "_pico";
+
+[data-theme=dark] {
+    --pico-background-color: #191724;
+    --pico-color: #e0def4;
+    --pico-text-selection-color: rgba(156, 207, 216, 0.1875);
+    --pico-muted-color: #6e6a86;
+    --pico-muted-border-color: #6e6a86;
+    --pico-primary: #31748f;
+    --pico-primary-background: #1f1d2e;
+    --pico-primary-underline: #31748f;
+    --pico-primary-hover: #9ccfd8;
+    --pico-primary-hover-background: #26233a;
+    --pico-primary-focus: rgba(156, 207, 216, 0.375);
+    --pico-primary-inverse: #e0def4;
+    // --pico-secondary: #969eaf;
+    // --pico-secondary-background: #525f7a;
+    // --pico-secondary-underline: rgba(150, 158, 175, 0.5);
+    // --pico-secondary-hover: #b3b9c5;
+    // --pico-secondary-hover-background: #5d6b89;
+    // --pico-secondary-focus: rgba(144, 158, 190, 0.25);
+    // --pico-secondary-inverse: #fff;
+    // --pico-contrast: #dfe3eb;
+    // --pico-contrast-background: #eff1f4;
+    // --pico-contrast-underline: rgba(223, 227, 235, 0.5);
+    // --pico-contrast-hover: #fff;
+    // --pico-contrast-hover-background: #fff;
+    // --pico-contrast-focus: rgba(207, 213, 226, 0.25);
+    // --pico-contrast-inverse: #000;
+    --pico-h1-color: #9ccfd8;
+    --pico-h2-color: #c4a7e7;
+    --pico-h3-color: #ebbcba;
+    --pico-h4-color: #e0def4;
+    --pico-h5-color: #908caa;
+    --pico-h6-color: #6e6a86;
+    // --pico-mark-background-color: #014063;
+    // --pico-mark-color: #fff;
+    // --pico-ins-color: #62af9a;
+    // --pico-del-color: #ce7e7b;
+    // --pico-button-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    // --pico-button-hover-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    // --pico-table-row-stripped-background-color: rgba(111, 120, 135, 0.0375);
+    // --pico-code-background-color: #1a1f28;
+    // --pico-code-color: #8891a4;
+    // --pico-form-element-background-color: #1c212c;
+    // --pico-form-element-selected-background-color: #2a3140;
+    // --pico-form-element-border-color: #2a3140;
+    // --pico-form-element-color: #e0e3e7;
+    // --pico-form-element-placeholder-color: #8891a4;
+    // --pico-form-element-active-background-color: #1a1f28;
+    // --pico-form-element-invalid-border-color: #964a50;
+    // --pico-form-element-invalid-active-border-color: #b7403b;
+    // --pico-form-element-valid-border-color: #2a7b6f;
+    // --pico-form-element-valid-active-border-color: #16896a;
+    // --pico-switch-background-color: #333c4e;
+    // --pico-range-border-color: #202632;
+    // --pico-range-active-border-color: #2a3140;
+    --pico-card-background-color: #1f1d2e;
+    --pico-card-sectioning-background-color: #26233a;
+    // --pico-dropdown-background-color: #181c25;
+    // --pico-dropdown-border-color: #202632;
+    // --pico-dropdown-hover-background-color: #202632;
+    // --pico-modal-overlay-background-color: rgba(8, 9, 10, 0.75);
+    // --pico-progress-background-color: #202632;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+div.code>pre {
+    display: block;
+    padding: var(--pico-spacing);
+    background: none;
+    line-height: var(--pico-line-height);
+}
