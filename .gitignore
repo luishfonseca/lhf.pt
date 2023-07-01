@@ -1,3 +1,6 @@
 web/public
+web/sass/_pico
 
 .direnv
+result
+.vercel

@@ -15,9 +15,27 @@
         "type": "indirect"
       }
     },
+    "picocss": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682221993,
+        "narHash": "sha256-GY6B1orGuskpl6U20lU//fZ8axNMgg3XBeHY3RdQfLc=",
+        "owner": "picocss",
+        "repo": "pico",
+        "rev": "2e8cd6e786b6bbdbba7362936ae47d0c619652d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "picocss",
+        "ref": "v2.0.0-alpha1",
+        "repo": "pico",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
+        "picocss": "picocss",
         "utils": "utils"
       }
     },
