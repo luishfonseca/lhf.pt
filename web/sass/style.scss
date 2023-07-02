@@ -72,3 +72,8 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+:root {
+    --pico-font-family-sans-serif: "IBM Plex Sans", sans-serif;
+    --pico-font-family-monospace: "IBM Plex Mono", monospace;
+}
