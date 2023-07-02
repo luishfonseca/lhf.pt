@@ -2,9 +2,11 @@
 {% import "macros.html" as macros %}
 
 {% block content %}
-<hgroup>
-    <h1>Posts tagged with {{ term.name }}</h1>
-    <p><small>Follow: <a href="{{ term.permalink | safe }}atom.xml">Tag Feed</a></small></p>
-</hgroup>
+<header>
+    <hgroup>
+        <h1>Posts tagged with {{ term.name }}</h1>
+        <p><small>Follow: <a href="{{ term.permalink | safe }}atom.xml">Tag Feed</a></small></p>
+    </hgroup>
+</header>
 {{ macros::list(pages=term.pages) }}
 {% endblock content %}

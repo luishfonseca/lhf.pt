@@ -37,9 +37,26 @@
             {% include "nav.html" %}
         </header>
         <main>
-            {% block content %} {% endblock %}
+            <article>
+                {% block content %} {% endblock %}
+            </article>
         </main>
+        <footer>
+            <small style="display: none" id="back">↑ <a href="#top" class="secondary">back to top</a></small>
+        </footer>
     </section>
+
+    <script>
+        let back = document.getElementById("back");
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                back.style.display = "block";
+            } else {
+                back.style.display = "none";
+            }
+        }
+    </script>
 
     <!--
     <script type="text/javascript" src="{{ get_url(path='/elasticlunr.min.js') }}"></script>

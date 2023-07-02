@@ -2,9 +2,11 @@
 {% import "macros.html" as macros %}
 
 {% block content %}
-<hgroup>
-    <h1>{{ section.title }}</h1>
-    <p><small>Follow: <a href="{{ get_url(path='atom.xml') }}">Posts Feed</a></small></p>
-</hgroup>
+<header>
+    <hgroup>
+        <h1>{{ section.title }}</h1>
+        <p><small>Follow: <a href="{{ get_url(path='atom.xml') }}">Posts Feed</a></small></p>
+    </hgroup>
+</header>
 {{ macros::list(pages=section.pages) }}
 {% endblock content %}
