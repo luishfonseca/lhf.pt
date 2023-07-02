@@ -1,0 +1,10 @@
+{% macro list(pages) %}
+{% for page in pages %}
+<div>
+    {{ page.date }} - <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    <br>
+    <small>{{ page.description }}</small>
+</div>
+<br>
+{% endfor %}
+{% endmacro list %}
