@@ -27,8 +27,7 @@
     <link href="https://fosstodon.org/@lhf" rel="me" />
 
     {% block rss %}
-    <link rel="alternate" type="application/atom+xml" title="RSS"
-        href="{{ get_url(path='atom.xml', trailing_slash=false) }}" />
+    <link rel="alternate" type="application/atom+xml" title="Posts" href="{{ get_url(path='atom.xml') }}" />
     {% endblock %}
 </head>
 

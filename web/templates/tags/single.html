@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Posts tagged with {{ term.name }}</h1>
+<hgroup>
+    <h1>Posts tagged with {{ term.name }}</h1>
+    <p><small>Follow: <a href="{{ term.permalink | safe }}atom.xml">Tag Feed</a></small></p>
+</hgroup>
 {% for page in term.pages %}
-<p><small>{{ page.date }}</small> - <a href="{{ page.permalink | safe }}">{{ page.title }}</a></p>
+<p>{{ page.date }} - <a href="{{ page.permalink | safe }}">{{ page.title }}</a></p>
 {% endfor %}
 {% endblock content %}
