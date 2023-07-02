@@ -1,6 +1,8 @@
 +++
 title = "My first post"
 date = 2023-06-25
+description = """
+This message will be displayed in the list of posts and on embedded cards."""
 
 [taxonomies]
 tags = ["test", "other"]
