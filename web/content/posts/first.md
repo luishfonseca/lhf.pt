@@ -52,7 +52,6 @@ You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
 ## Blockquotes
 
 > Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
-> - Test
 
 ## Blocks of code
 
@@ -65,7 +64,7 @@ alert(message);
 
 This web site is not using `markedjs/marked`.
 
-## This projects flake
+## This project's flake (outdated)
 
 ```nix
 {
