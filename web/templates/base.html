@@ -24,7 +24,12 @@
 
     <script async src="https://u.lhf.pt/script.js" data-website-id="1fa261f4-c96a-44c8-a488-7cb9428bbf1d"></script>
 
-    <link href="https://fosstodon.org/@lhf" rel="me">
+    <link href="https://fosstodon.org/@lhf" rel="me" />
+
+    {% block rss %}
+    <link rel="alternate" type="application/atom+xml" title="RSS"
+        href="{{ get_url(path='atom.xml', trailing_slash=false) }}" />
+    {% endblock %}
 </head>
 
 <body>
