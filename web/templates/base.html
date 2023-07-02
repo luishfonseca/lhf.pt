@@ -3,9 +3,14 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>lhf.</title>
+
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <meta name="author" content="{{ config.extra.author }}">
+
+    <link rel="stylesheet" href="{{ get_url(path='/style.css') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/style.css" />
+
     <script async src="https://u.lhf.pt/script.js" data-website-id="1fa261f4-c96a-44c8-a488-7cb9428bbf1d"></script>
 
     <link href="https://fosstodon.org/@lhf" rel="me">

@@ -1,6 +1,9 @@
 # The URL the site will be built for
 base_url = "https://lhf.pt"
 
+title = "lhf."
+description = "Personal website of Luís Fonseca"
+
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 
@@ -13,4 +16,4 @@ build_search_index = true
 highlight_code = true
 
 [extra]
-# Put all your custom variables here
+author = "Luís Fonseca"
