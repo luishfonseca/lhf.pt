@@ -1,0 +1,23 @@
+{
+    "subject": "acct:lhf@fosstodon.org",
+    "aliases": [
+        "https://fosstodon.org/@lhf",
+        "https://fosstodon.org/users/lhf"
+    ],
+    "links": [
+        {
+            "rel": "http://webfinger.net/rel/profile-page",
+            "type": "text/html",
+            "href": "https://fosstodon.org/@lhf"
+        },
+        {
+            "rel": "self",
+            "type": "application/activity+json",
+            "href": "https://fosstodon.org/users/lhf"
+        },
+        {
+            "rel": "http://ostatus.org/schema/1.0/subscribe",
+            "template": "https://fosstodon.org/authorize_interaction?uri={uri}"
+        }
+    ]
+}
