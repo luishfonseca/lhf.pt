@@ -17,14 +17,19 @@
 </head>
 
 <body>
-    <section>
-        <header class="container-fluid">
+    <section class="container">
+        <header>
             {% include "nav.html" %}
         </header>
-        <main class="container">
+        <main>
             {% block content %} {% endblock %}
         </main>
     </section>
+
+    <!--
+    <script type="text/javascript" src="{{ get_url(path='/elasticlunr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ get_url(path='/search.js') }}"></script>
+    -->
 </body>
 
 </html>
