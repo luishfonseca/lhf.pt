@@ -17,7 +17,7 @@
     </hgroup>
     <div>
         {% for tag in page.taxonomies.tags %}
-        <a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe}}">#{{ tag }}</a>
+        <a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe}}">#{{ tag }}</a>&nbsp;
         {% endfor %}
     </div>
 </header>
