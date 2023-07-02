@@ -72,10 +72,3 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
-div.code>pre {
-    display: block;
-    padding: var(--pico-spacing);
-    background: none;
-    line-height: var(--pico-line-height);
-}
