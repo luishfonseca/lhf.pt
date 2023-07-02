@@ -2,7 +2,7 @@
 
 {% block content %}
 <hgroup>
-    <h1>Posts</h1>
+    <h1>{{ section.title }}</h1>
     <p><small>Follow: <a href="{{ get_url(path='atom.xml') }}">Posts Feed</a></small></p>
 </hgroup>
 {% for page in section.pages %}
