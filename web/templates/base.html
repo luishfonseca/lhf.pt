@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
+{% block page_data %}
+{% set title = config.title %}
+{% set description = config.description %}
+{% endblock %}
+
 <head>
     <meta charset="utf-8" />
 
-    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
-    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
     <meta name="author" content="{{ config.extra.author }}">
+
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ get_url(path='/') }}" />
+    <meta property="og:image" content="{{ get_url(path='/favicon-512x512.png') }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

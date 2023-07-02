@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }} | {{config.title}}{% endblock title %}
-
-{% block description %}{% if page.description %}
-{{ page.description }}
+{% block page_data %}
+{% set title = page.title ~ ' | ' ~ config.title %}
+{% if page.description %}
+{% set description = page.description %}
 {% else %}
-{{ config.description }}
-{% endif %}{% endblock description %}
+{% set description = config.description %}
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <header>
