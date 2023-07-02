@@ -1,5 +1,5 @@
 base_url = "https://lhf.pt"
-title = "lhf."
+title = "lhf"
 description = "Personal website of Luís Fonseca"
 
 compile_sass = true
