@@ -1,6 +1,6 @@
 +++
 title = "Demystifying NixOS: The Basic Flake (1/4)"
-date = 2023-06-25
+date = 2023-07-04
 description = """
 NixOS can often feel overwhelming, especially for newcomers to the operating system.
 
