@@ -79,7 +79,7 @@
       defaultPackage = web;
 
       apps.deploy-prod = mkApp (deploy { prod = true; });
-      apps.deploy-dev = mkApp (deploy { prod = true; });
+      apps.deploy-dev = mkApp (deploy { prod = false; });
       apps.deploy-not-ci = mkApp (deploy { prod = false; ci = false; });
     });
 }
