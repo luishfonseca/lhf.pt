@@ -22,11 +22,3 @@ jobs:
       - name: Deploy to Vercel
         run: |
           nix run .#deploy-dev
-
-      - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            Preview deployment: https://preview.lhf.pt
-          comment_tag: preview-url
-          mode: recreate
