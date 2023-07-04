@@ -33,7 +33,7 @@
         version = 3;
       };
 
-      web = pkgs.stdenv.mkDerivation {
+      web = { prod }: pkgs.stdenv.mkDerivation {
         name = "lhf.pt-web";
 
         src = ./web;
@@ -49,20 +49,22 @@
           ${vercelCfg}
           EOF
 
-          ${zola}/bin/zola build -o $out/static
+          ${zola}/bin/zola build -o $out/static ${if prod == "" then "" else "-u=https://preview.lhf.pt"}
         '';
       };
 
-      deploy = { prod, ci ? true }: pkgs.writeScript "deploy" ''
+      deploy = { prod, ci ? true }: pkgs.writeScript "deploy" (''
         ${pkgs.nodePackages.vercel}/bin/vercel pull --yes --environment ${if prod then "production" else "development"} ${if ci then "--token=$VERCEL_TOKEN" else ""}
 
         rm -rf .vercel/output
         mkdir -p .vercel/output
-        cp -r ${web}/* .vercel/output
+        cp -r ${web { inherit prod; }}/* .vercel/output
         chmod -R +w .vercel/output
 
-        ${pkgs.nodePackages.vercel}/bin/vercel deploy --prebuilt ${if prod then "--prod" else ""} ${if ci then "--token=$VERCEL_TOKEN" else ""}
-      '';
+        url=$(${pkgs.nodePackages.vercel}/bin/vercel deploy --prebuilt ${if prod then "--prod" else ""} ${if ci then "--token=$VERCEL_TOKEN" else ""})
+      '' + (if prod then "" else ''
+        ${pkgs.nodePackages.vercel}/bin/vercel alias --yes $url preview.lhf.pt ${if ci then "--token=$VERCEL_TOKEN" else ""}
+      ''));
 
       mkApp = run: { type = "app"; program = "${run}"; };
     in
@@ -76,7 +78,7 @@
         buildInputs = [ zola pkgs.nodePackages.vercel ];
       };
 
-      defaultPackage = web;
+      defaultPackage = web { };
 
       apps.deploy-prod = mkApp (deploy { prod = true; });
       apps.deploy-dev = mkApp (deploy { prod = false; });
