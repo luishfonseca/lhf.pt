@@ -55,7 +55,7 @@ This `flake.nix` file represents the foundation of our NixOS configuration. It m
 
 Within the `inputs` attribute, we specify the source of our Nix packages by providing the URL for the desired version of the Nixpkgs repository. In this example, we're using the `nixos-23.05` branch. You can include additional inputs as needed, but for now, we'll keep it simple.
 
-The `outputs` attribute is a function that takes the `inputs` as an argument and returns a set of outputs. In this case, we're only interested in the `nixosConfigurations` output, which is a set of available configurations for different hosts. We define a single host called `myhost`. Please note that the key name might be different from the actual hostname of the machine.
+The `outputs` attribute is a function that takes the `inputs` as an argument and returns a set of well known attributes. In this case, we're only interested in the `nixosConfigurations` output attribute, which is a set of available configurations for different hosts. We define a single host called `myhost`. Please note that the key name might be different from the actual hostname of the machine.
 
 To construct the `myhost` configuration, we utilize the `nixpkgs.lib.nixosSystem` function provided by the Nixpkgs library. This function takes in various parameters, such as the target system architecture (`system`) and a list of modules (`modules`) that define specific configuration settings. In our initial configuration, the modules list is empty, resulting in a default NixOS configuration.
 
@@ -97,7 +97,7 @@ In many cases, we may only need the option definitions, resulting in a more conc
 }
 ```
 
-Now, let's see how we can apply modules to customize our system. Take a look at the updated   `flake.nix` file:
+Now, let's see how we can apply modules to customize our system. Take a look at the updated `flake.nix` file:
 
 ```nix
 # file: flake.nix
