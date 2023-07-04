@@ -122,7 +122,7 @@ Now, let's see how we can apply modules to customize our system. Take a look at 
 
 We've added a single module to the `modules` list. This module defines basic configuration options, such as creating a user named `demo` and enabling automatic login for that user. 
 
-Additionally, we have specified the desired NixOS state version as "23.05" to suppress the warning message we would otherwise receive.
+Additionally, we have specified the desired NixOS state version as `23.05` to suppress the warning message we would otherwise receive.
 
 ## Testing it out
 
@@ -246,3 +246,11 @@ We include the provided Home Manager module by appending `inputs.home-manager.ni
 }
 ```
 Within the configuration file, we have enabled Home Manager and added a simple configuration for the demo user. This configuration enables the newsboat program and includes the feed from this blog.
+
+## Next in the series: Multi-Host Configurations
+
+In the next installment of this series, we will explore how to expand our flake configuration to include multiple hosts. We will delve into the power of the Nix expression language and learn how to template our config to generate host configurations dynamically.
+
+Read the next post here: (coming soon)
+
+Read other posts in this series: [Demystifying NixOS](/tags/demystifying-nixos/)
