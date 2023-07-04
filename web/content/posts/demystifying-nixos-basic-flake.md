@@ -21,12 +21,22 @@ I believe this is because crafting a NixOS configuration is an iterative process
 
 In this opinionated series, my aim is to provide a structured path that takes you from a simple NixOS configuration to a more complex one, while explaining the underlying concepts along the way. By the end of this series, you will have a comprehensive understanding of how to create a NixOS configuration that:
 
-- Utilizes flakes.
+- Uses flakes.
 - Supports multiple hosts.
 - Enables the installation of custom packages.
 - Can be extended through modules.
 - Organizes configuration options into profiles.
 - Is fully understood by you, the reader.
+
+## The Nix trinity
+
+In the Nix ecosystem, there are 3 major components that often get called Nix but are important to desambiguate.
+
+Within the Nix ecosystem, it's important to differentiate between three key components that are often referred to as Nix.
+
+- Nix Expression Language: The functional programming language that forms the foundations of the Nix ecosystem. When referring to the Nix expression language, I may just use the term Nix.
+- Nix packages (or Nixpkgs): Firstly, they contain packaging instructions for various programs and software libraries. Secondly, they include modules that bundle configuration settings for these programs. Nix packages are written using the Nix expression language.
+- NixOS: It is a complete operating system built on top of the programs packaged in Nixpkgs. It leverages the Nix expression language and the Nixpkgs modules to configure and manage the entire system.
 
 ## A starting point
 
@@ -57,7 +67,7 @@ Within the `inputs` attribute, we specify the source of our Nix packages by prov
 
 The `outputs` attribute is a function that takes the `inputs` as an argument and returns a set of well known attributes. In this case, we're only interested in the `nixosConfigurations` output attribute, which is a set of available configurations for different hosts. We define a single host called `myhost`. Please note that the key name might be different from the actual hostname of the machine.
 
-To construct the `myhost` configuration, we utilize the `nixpkgs.lib.nixosSystem` function provided by the Nixpkgs library. This function takes in various parameters, such as the target system architecture (`system`) and a list of modules (`modules`) that define specific configuration settings. In our initial configuration, the modules list is empty, resulting in a default NixOS configuration.
+To construct the `myhost` configuration, we make use of the `nixpkgs.lib.nixosSystem` function provided by the Nixpkgs library. This function takes in various parameters, such as the target system architecture (`system`) and a list of modules (`modules`) that define specific configuration settings. In our initial configuration, the modules list is empty, resulting in a default NixOS configuration.
 
 ## Modules
 
@@ -85,7 +95,7 @@ Next, we define the `options` attribute, where we declare new configuration opti
 
 Finally, we have the `config` attribute, where we define the actual configuration options to customize our system. This is where we'll spend most of our time.
 
-In many cases, we may only need the option definitions, resulting in a more concise configuration. In these instances, we can omit the `options` attribute and directly define the options at the top level of the module, like so:
+In many cases, we may not need to declare new options. In these instances, we can omit the `options` attribute and define the contents of `config` at the top-level of the module, like so:
 
 ```nix
 {
@@ -132,7 +142,9 @@ Now that we have our basic NixOS configuration in place, it's time to test it ou
 rm *.qcow2; nixos-rebuild build-vm --flake .#myhost && result/bin/run-*-vm
 ```
 
-This command will build a virtual machine image for our `myhost` configuration and run it using QEMU/KVM. If everything goes well, you should be logged in as the `demo` user.
+The command will build a virtual machine image for our `myhost` configuration and run it using QEMU/KVM. The run script will search for a virtual disk image and create it if missing, so we need to remove it to ensure we always have a fresh start.
+
+If everything goes well, you should be logged in as the `demo` user.
 
 ## Splitting the configuration
 
@@ -189,7 +201,7 @@ You might be recognizing this `configuration.nix`; it is indeed the same file as
 
 ## Extra: Home Manager
 
-Many NixOS users also utilize Home Manager to manage their user configurations. While I have some mixed feelings about it, Home Manager serves as an excellent demonstration of how to incorporate additional inputs into our flake.
+Many NixOS users also use Home Manager to manage their user configurations. While I have some mixed feelings about it, Home Manager serves as an excellent demonstration of how to incorporate additional inputs into our flake.
 
 ```nix
 # file: flake.nix
@@ -220,7 +232,9 @@ Many NixOS users also utilize Home Manager to manage their user configurations. 
 
 To incorporate Home Manager into our configuration, we have added a new input pointing to the branch that matches our Nixpkgs version. Additionally, we set it to use the same Nixpkgs input as our NixOS configuration.
 
-We include the provided Home Manager module by appending `inputs.home-manager.nixosModules.home-manager` to the `modules` list. With this addition, our configuration is now ready to utilize Home Manager.
+We include the provided Home Manager module by appending `inputs.home-manager.nixosModules.home-manager` to the `modules` list. Internally, this module will provide several new option declarations through the `options` attribute that can then be defined in the rest of our config.
+
+With this addition, our configuration is now ready to make use of Home Manager.
 
 ```nix
 # file: configuration.nix
