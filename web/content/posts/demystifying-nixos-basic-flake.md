@@ -30,8 +30,6 @@ In this opinionated series, my aim is to provide a structured path that takes yo
 
 ## The Nix trinity
 
-In the Nix ecosystem, there are 3 major components that often get called Nix but are important to desambiguate.
-
 Within the Nix ecosystem, it's important to differentiate between three key components that are often referred to as Nix.
 
 - Nix Expression Language: The functional programming language that forms the foundations of the Nix ecosystem. When referring to the Nix expression language, I may just use the term Nix.
@@ -259,6 +257,7 @@ With this addition, our configuration is now ready to make use of Home Manager.
   };
 }
 ```
+
 Within the configuration file, we have enabled Home Manager and added a simple configuration for the demo user. This configuration enables the newsboat program and includes the feed from this blog.
 
 ## Next in the series: Multi-Host Configurations
