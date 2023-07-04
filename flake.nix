@@ -50,6 +50,8 @@
           EOF
 
           ${zola}/bin/zola build -o $out/static ${if prod == "" then "" else "-u=https://preview.lhf.pt"}
+
+          cp $out/static/404.html $out/404.html
         '';
       };
 
@@ -78,7 +80,7 @@
         buildInputs = [ zola pkgs.nodePackages.vercel ];
       };
 
-      defaultPackage = web { };
+      defaultPackage = web { prod = true; };
 
       apps.deploy-prod = mkApp (deploy { prod = true; });
       apps.deploy-dev = mkApp (deploy { prod = false; });
