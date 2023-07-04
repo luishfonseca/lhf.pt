@@ -31,6 +31,10 @@
 
       vercelCfg = builtins.toJSON {
         version = 3;
+        routes = [
+          { handle = "filesystem"; }
+          { src = "/(.*)"; status = 404; dest = "/404.html"; }
+        ];
       };
 
       web = { prod }: pkgs.stdenv.mkDerivation {
@@ -50,8 +54,6 @@
           EOF
 
           ${zola}/bin/zola build -o $out/static ${if prod then "" else "-u=https://preview.lhf.pt"}
-
-          cp $out/static/404.html $out/404.html
         '';
       };
 
