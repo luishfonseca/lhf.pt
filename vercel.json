@@ -1,5 +1,22 @@
 {
     "github": {
         "enabled": false
-    }
+    },
+    "headers": [
+        {
+            "source": "/",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "preview.lhf.pt"
+                }
+            ],
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex"
+                }
+            ]
+        }
+    ]
 }
