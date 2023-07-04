@@ -61,7 +61,7 @@ Let's begin with a simple NixOS configuration that will serve as our starting po
 }
 ```
 
-This `flake.nix` file represents the foundation of our NixOS configuration. It might be simple, but let's take a moment to understand what's happening here.
+This `flake.nix` is the entrypoint of our NixOS configuration. It might be simple, but let's take a moment to understand what's happening here.
 
 Within the `inputs` attribute, we specify the source of our Nix packages by providing the URL for the desired version of the Nixpkgs repository. In this example, we're using the `nixos-23.05` branch. You can include additional inputs as needed, but for now, we'll keep it simple.
 
