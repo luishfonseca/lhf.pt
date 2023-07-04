@@ -185,4 +185,64 @@ Now, let's consider an updated version of the configuration.nix file that includ
 
 In this updated version, we've turned our configuration into a function that takes an argument `pkgs`. This enables us to access the package set and install additional packages. In this case, we have added `neofetch` to the `environment.systemPackages` list as an example package.
 
-You might be recognizing this `configuration.nix`; it is indeed the same as the one created by `nixos-generate-config`! This means that we can move that file here and completely migrate to a flake-based configuration.
+You might be recognizing this `configuration.nix`; it is indeed the same file as the one created by `nixos-generate-config`! This means that we can move that file here and completely migrate to a flake-based configuration.
+
+## Extra: Home Manager
+
+Many NixOS users also utilize Home Manager to manage their user configurations. While I have some mixed feelings about it, Home Manager serves as an excellent demonstration of how to incorporate additional inputs into our flake.
+
+```nix
+# file: flake.nix
+
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs: {
+    nixosConfigurations = {
+      myhost = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+        ];
+      };
+    };
+  };
+}
+```
+
+To incorporate Home Manager into our configuration, we have added a new input pointing to the branch that matches our Nixpkgs version. Additionally, we set it to use the same Nixpkgs input as our NixOS configuration.
+
+We include the provided Home Manager module by appending `inputs.home-manager.nixosModules.home-manager` to the `modules` list. With this addition, our configuration is now ready to utilize Home Manager.
+
+```nix
+# file: configuration.nix
+
+{ pkgs, ... }: {
+  users.users.demo.isNormalUser = true;
+  services.getty.autologinUser = "demo";
+  system.stateVersion = "23.05";
+
+  environment.systemPackages = with pkgs; [
+    neofetch
+  ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.demo = {
+    home.stateVersion = "23.05";
+    programs.newsboat = {
+      enable = true;
+      urls = [{ url = "https://lhf.pt/atom.xml"; }];
+    };
+  };
+}
+```
+Within the configuration file, we have enabled Home Manager and added a simple configuration for the demo user. This configuration enables the newsboat program and includes the feed from this blog.
