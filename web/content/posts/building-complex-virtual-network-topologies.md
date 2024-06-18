@@ -109,11 +109,15 @@ At this point, we have two cables going to `ns3`, but they are not connected to 
 ```bash
 # Create a bridge named br0
 sudo ip netns exec ns2 ip link add name br0 type bridge
-sudo ip netns exec ns2 ip link set br0 up
 
 # Connect the peer-ns1 and peer-ns3 interfaces to the bridge
 sudo ip netns exec ns2 ip link set peer-ns1 master br0
 sudo ip netns exec ns2 ip link set peer-ns3 master br0
+
+# Bring up the interfaces
+sudo ip netns exec ns2 ip link set br0 up
+sudo ip netns exec ns2 ip link set peer-ns1 up
+sudo ip netns exec ns2 ip link set peer-ns3 up
 ```
 
 Next, we assign an IP address, `172.16.0.100`, to the `br0` interface in the `ns2` namespace, enabling us to ping it from both `ns1` and `ns3`. Additionally, we reassign `172.16.0.2` to the `ns3` end of the newly created veth pair, for consistency.
@@ -122,12 +126,8 @@ Next, we assign an IP address, `172.16.0.100`, to the `br0` interface in the `ns
 # Clear the IP address from the peer-ns1 interface
 sudo ip netns exec ns2 ip addr del 172.16.0.2/24 dev peer-ns1
 
-# Assign the IP addresses
+# Assign the IP address
 sudo ip netns exec ns3 ip addr add 172.16.0.2/24 dev veth-ns3
-sudo ip netns exec ns2 ip addr add 172.16.0.100/24 dev br0
-
-# Ping the bridge from ns1
-sudo ip netns exec ns1 ping 172.16.0.100
 
 # Ping ns3 from ns1
 sudo ip netns exec ns1 ping 172.16.0.2
