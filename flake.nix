@@ -2,11 +2,11 @@
   description = "lhf.pt website";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
+    nixpkgs.url = "nixpkgs/nixos-24.05";
     utils.url = "github:numtide/flake-utils";
 
     picocss = {
-      url = "github:picocss/pico/v2.0.0-alpha1";
+      url = "github:picocss/pico/v2.0.6";
       flake = false;
     };
   };
@@ -14,20 +14,6 @@
   outputs = { ... } @ inputs: inputs.utils.lib.eachDefaultSystem (system:
     let
       pkgs = import inputs.nixpkgs { inherit system; };
-
-      zola = pkgs.zola.overrideAttrs (prev: rec {
-        src = pkgs.fetchFromGitHub {
-          owner = "luishfonseca";
-          repo = "zola";
-          rev = "master";
-          sha256 = "sha256-9qt30cxFVNVa8IpkGO/Q196oPk/GpjKT245JpxKxqSQ=";
-        };
-
-        cargoDeps = prev.cargoDeps.overrideAttrs (pkgs.lib.const {
-          inherit src;
-          outputHash = "sha256-RkZr0zaFMyphYAj+dmIXKYyHFXnUIAaikReh8RQeW1w=";
-        });
-      });
 
       vercelCfg = builtins.toJSON {
         version = 3;
@@ -53,7 +39,7 @@
           ${vercelCfg}
           EOF
 
-          ${zola}/bin/zola build -o $out/static ${if prod then "" else "-u=https://preview.lhf.pt"}
+          ${pkgs.zola}/bin/zola build -o $out/static ${if prod then "" else "-u=https://preview.lhf.pt"}
         '';
       };
 
@@ -79,7 +65,7 @@
           ln -s ${inputs.picocss}/scss web/sass/_pico
         '';
 
-        buildInputs = [ zola pkgs.nodePackages.vercel ];
+        buildInputs = with pkgs; [ zola nodePackages.vercel ];
       };
 
       defaultPackage = web { prod = true; };

@@ -2,32 +2,32 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1687017257,
-        "narHash": "sha256-jbk0Szj1DPe9KwySeMr3KzYqW1JaUKJ6lYwSLMvc1n0=",
+        "lastModified": 1718437845,
+        "narHash": "sha256-ZT7Oc1g4I4pHVGGjQFnewFVDRLH5cIZhEzODLz9YXeY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "aaef163eac75c2ac7f882c1fae4e0c08aa18d186",
+        "rev": "752c634c09ceb50c45e751f8791cb45cb3d46c9e",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "nixos-23.05",
+        "ref": "nixos-24.05",
         "type": "indirect"
       }
     },
     "picocss": {
       "flake": false,
       "locked": {
-        "lastModified": 1682221993,
-        "narHash": "sha256-GY6B1orGuskpl6U20lU//fZ8axNMgg3XBeHY3RdQfLc=",
+        "lastModified": 1709478565,
+        "narHash": "sha256-xkmEwh7OE6t5OQLMG49ZCMfEBStwR2TqZVXKOCOO7+E=",
         "owner": "picocss",
         "repo": "pico",
-        "rev": "2e8cd6e786b6bbdbba7362936ae47d0c619652d3",
+        "rev": "6dc6489e69cc1f22daa938ebd38c02400032428c",
         "type": "github"
       },
       "original": {
         "owner": "picocss",
-        "ref": "v2.0.0-alpha1",
+        "ref": "v2.0.6",
         "repo": "pico",
         "type": "github"
       }
@@ -59,11 +59,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1687171271,
-        "narHash": "sha256-BJlq+ozK2B1sJDQXS3tzJM5a+oVZmi1q0FlBK/Xqv7M=",
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "abfb11bd1aec8ced1c9bb9adfe68018230f4fb3c",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
         "type": "github"
       },
       "original": {
