@@ -11,12 +11,12 @@
 
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
-    <meta name="author" content="{{ config.extra.author }}">
+    <meta name="author" content="{{ config.author }}">
 
     <meta property="og:title" content="{{ title }}" />
     <meta property="og:description" content="{{ description }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{ get_url(path='/favicon-512x512.png') }}" />
+    <meta property="og:image" content="{{ get_url(path='/img/favicon-512x512.png') }}" />
 
     {% if current_url %}
     <meta property="og:url" content="{{ current_url }}" />
@@ -32,22 +32,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {% if current_path %}
-    <link rel="canonical" href="https://lhf.pt{{ current_path }}" />
+    <link rel="canonical" href="{{ config.extra.canonical }}{{ current_path }}" />
     {% endif %}
 
     <script type="application/ld+json">
     {
         "@context" : "https://schema.org",
         "@type" : "WebSite",
-        "name" : "Luís H. Fonseca",
-        "alternateName" : "lhf",
+        "name" : "{{ title }}",
+        "alternateName" : "{{ config.extra.short_title }}",
         "url" : "https://lhf.pt/"
     }
     </script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='/apple-touch-icon.png') }}" />
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='/favicon-32x32.png') }}" />
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='/favicon-16x16.png') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='/img/apple-touch-icon.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='/img/favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='/img/favicon-16x16.png') }}" />
     <link rel="manifest" href="{{ get_url(path='/site.webmanifest') }}" />
 
     <script async src="https://u.lhf.pt/script.js" data-website-id="f3cd7156-1555-4515-a015-40faa4e53822"></script>
@@ -60,27 +60,30 @@
 </head>
 
 <body>
-    <section class="container">
-        <header>
-            <nav>
-                <ul>
-                    <li><strong>{{ config.title }}</strong></li>
-                </ul>
-                <ul>
-                    <li><a href="{{ get_url(path='/') }}">Home</a></li>
-                    <li><a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <article>
-                {% block content %} {% endblock %}
-            </article>
-        </main>
-        <footer>
-            <small style="display: none" id="back">↑ <a href="#top" class="secondary">back to top</a></small>
-        </footer>
-    </section>
+    <header class="container">
+        <nav>
+            <div style="display: flex; flex-direction:column;">
+                <span style="font-size:2em; "><strong>{{ config.title }}</strong></span>
+                <muted><small>{{ config.description }}</small></muted>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+                <div>
+                    <a href="{{ get_url(path='/') }}">Home</a>
+                </div>
+                <div>
+                    <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        <article>
+            {% block content %} {% endblock %}
+        </article>
+    </main>
+    <footer class="container">
+        <small style="display: none" id="back">↑ <a href="#top" class="secondary">back to top</a></small>
+    </footer>
 
     <script>
         let back = document.getElementById("back");

@@ -9,6 +9,11 @@
       url = "github:picocss/pico/v2.0.6";
       flake = false;
     };
+
+    fontawesome = {
+      url = "github:FortAwesome/Font-Awesome/6.5.2";
+      flake = false;
+    };
   };
 
   outputs = {...} @ inputs:
@@ -33,6 +38,9 @@
           src = ./web;
           patchPhase = ''
             cp -r ${inputs.picocss}/scss sass/_pico
+
+            cp -r ${inputs.fontawesome}/scss sass/_fontawesome
+            cp -r ${inputs.fontawesome}/webfonts static/webfonts
           '';
 
           installPhase = ''
@@ -88,6 +96,12 @@
         shellHook = ''
           unlink web/sass/_pico
           ln -s ${inputs.picocss}/scss web/sass/_pico
+
+          unlink web/sass/_fontawesome
+          ln -s ${inputs.fontawesome}/scss web/sass/_fontawesome
+
+          unlink web/static/webfonts
+          ln -s ${inputs.fontawesome}/webfonts web/static/webfonts
         '';
 
         buildInputs = with pkgs; [zola nodePackages.vercel];

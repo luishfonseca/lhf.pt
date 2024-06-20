@@ -1,5 +1,9 @@
 @use "_pico";
 
+@import '_fontawesome/fontawesome.scss';
+@import '_fontawesome/solid.scss';
+@import '_fontawesome/brands.scss';
+
 [data-theme=dark] {
     --pico-background-color: #191724;
     --pico-color: #e0def4;
@@ -27,12 +31,12 @@
     // --pico-contrast-hover-background: #fff;
     // --pico-contrast-focus: rgba(207, 213, 226, 0.25);
     // --pico-contrast-inverse: #000;
-    --pico-h1-color: #9ccfd8;
-    --pico-h2-color: #31748f;
-    --pico-h3-color: #ebbcba;
-    --pico-h4-color: #e0def4;
-    --pico-h5-color: #908caa;
-    --pico-h6-color: #908caa;
+    --pico-h1-color: #e0def4;
+    --pico-h2-color: #9ccfd8;
+    --pico-h3-color: #9ccfd8;
+    --pico-h4-color: #9ccfd8;
+    --pico-h5-color: #9ccfd8;
+    --pico-h6-color: #9ccfd8;
     // --pico-mark-background-color: #014063;
     // --pico-mark-color: #fff;
     // --pico-ins-color: #62af9a;
@@ -76,4 +80,12 @@ body {
 :root {
     --pico-font-family-sans-serif: "IBM Plex Sans", sans-serif;
     --pico-font-family-monospace: "IBM Plex Mono", monospace;
+}
+
+muted {
+    color: var(--pico-muted-color);
+}
+
+:where(a, [role=link]):not(:hover) {
+    text-decoration: none;
 }

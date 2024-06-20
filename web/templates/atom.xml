@@ -25,7 +25,7 @@
         <published>{{ page.date | date(format="%+") }}</published>
         <updated>{{ page.updated | default(value=page.date) | date(format="%+") }}</updated>
         <author>
-          <name>{{ config.extra.author }}</name>
+          <name>{{ config.author }}</name>
         </author>
         <link rel="alternate" href="{{ page.permalink | safe }}" type="text/html"/>
         <id>{{ page.permalink | safe }}</id>

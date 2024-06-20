@@ -1,16 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Hello, I'm Luís. 👋</h1>
-<p>I'm a computer science student from Portugal, currently studying at <a href="https://tecnico.ulisboa.pt/en/"
-        target="_blank" rel="noopener">Instituto Superior Técnico</a>.</p>
+<div
+    style="display: flex; flex-direction: row-reverse; flex-wrap: wrap; max-height: 240px; overflow: hidden; gap: 1em; justify-content: flex-end;">
+    <div style="display: flex; flex-direction:column; height: 240px; justify-content: space-evenly;">
+        <p>
+            I'm a Computer Science graduate student from Portugal. 🇵🇹
+            <br>
+            Currently studying at Aalto, Finland. 🇫🇮
+        </p>
+        <p>
+            I'm interested in distributed systems, networks, security and programming languages.
+        </p>
 
-<h4>Reach out to me at:</h4>
-<ul>
-    <li>Mail: <a href="mailto:luis@lhf.pt" target="_blank" rel="noopener">luis@lhf.pt</a></li>
-    <li>Mastodon: <a href="https://fosstodon.org/@lhf" target="_blank" rel="noopener">lhf@fosstodon.org</a></li>
-    <li>GitHub: <a href="https://github.com/luishfonseca/" target="_blank" rel="noopener">luishfonseca</a></li>
-    <li>LinkedIn: <a href="https://www.linkedin.com/in/luishfonseca/" target="_blank" rel="noopener">luishfonseca</a>
-    </li>
-</ul>
+        <div style="display: flex; gap: 1em;">
+            <div style="display:flex; flex-direction: column; gap: 0.5em;">
+                <div>
+                    <span class="fa-solid fa-envelope" style="padding-right: 0.5em;"></span>
+                    <a href="mailto:luis@lhf.pt" target="_blank" rel="noopener">luis@lhf.pt</a>
+                </div>
+                <div>
+                    <span class="fa-brands fa-mastodon" style="padding-right: 0.5em;"></span>
+                    <a href="https://fosstodon.org/@lhf" target="_blank" rel="noopener">lhf@fosstodon.org</a>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction: column; gap: 0.5em;">
+                <div>
+                    <span class="fa-brands fa-github" style="padding-right: 0.5em;"></span>
+                    <a href="https://github.com/luishfonseca/" target="_blank" rel="noopener">luishfonseca</a>
+                </div>
+                <div>
+                    <span class="fa-brands fa-linkedin" style="padding-right: 0.5em;"></span>
+                    <a href="https://www.linkedin.com/in/luishfonseca/" target="_blank" rel="noopener">luishfonseca</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <img src="{{ get_url(path='/img/me.jpg') }}" alt="Me" style="width: 100%; height: 240px;">
+        <br>
+    </div>
+</div>
+
 {% endblock content %}

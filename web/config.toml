@@ -1,10 +1,14 @@
 base_url = "https://lhf.pt"
-title = "lhf"
-description = "Personal website of Luís Fonseca"
+
+title = "Luís H. Fonseca"
+description = "personal blog and portfolio"
+
+author = "Luís H. Fonseca"
 
 compile_sass = true
-#build_search_index = true
+minify_html = true
 generate_feed = true
+#build_search_index = true
 
 taxonomies = [
     {name = "tags", feed = true},
@@ -17,4 +21,5 @@ extra_syntaxes_and_themes = [ './md_themes' ]
 external_links_target_blank = true
 
 [extra]
-author = "Luís Fonseca"
+short_title = "lhf"
+canonical = "https://lhf.pt"

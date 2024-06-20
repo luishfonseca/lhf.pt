@@ -1,5 +1,7 @@
 web/public
+web/static/webfonts
 web/sass/_pico
+web/sass/_fontawesome
 
 .direnv
 result
