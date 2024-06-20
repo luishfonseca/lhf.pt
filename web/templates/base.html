@@ -13,6 +13,8 @@
     <meta name="description" content="{{ description }}">
     <meta name="author" content="{{ config.author }}">
 
+    {% block extra_head %} {% endblock %}
+
     <meta property="og:title" content="{{ title }}" />
     <meta property="og:description" content="{{ description }}" />
     <meta property="og:type" content="website" />
@@ -41,7 +43,7 @@
         "@type" : "WebSite",
         "name" : "{{ title }}",
         "alternateName" : "{{ config.extra.short_title }}",
-        "url" : "https://lhf.pt/"
+        "url" : "{{ config.extra.canonical }}/"
     }
     </script>
 

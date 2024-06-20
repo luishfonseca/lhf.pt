@@ -12,6 +12,7 @@ generate_feed = true
 
 taxonomies = [
     {name = "tags", feed = true},
+    {name = "keywords", feed = false},
 ]
 
 [markdown]

@@ -9,6 +9,13 @@
 {% endif %}
 {% endblock %}
 
+{% block extra_head %}
+<meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=', ') }}">
+{% endblock %}
+
+{% block rss %}
+{% endblock %}
+
 {% block content %}
 <header>
     <hgroup>
@@ -23,4 +30,4 @@
 </header>
 
 {{ page.content | safe }}
-{% endblock content %}
+{% endblock %}

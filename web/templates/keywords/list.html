@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Keywords</h1>
+{% for keyword in terms %}
+<p><a href="{{ keyword.permalink | safe }}">{{ keyword.name }}</a> ({{ keyword.pages | length }})</p>
+{% endfor %}
+{% endblock content %}

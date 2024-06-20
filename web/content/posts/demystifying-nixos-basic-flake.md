@@ -11,6 +11,7 @@ In part 1 we look at a basic starting point.
 
 [taxonomies]
 tags = ["nixos"]
+keywords = ["nixos", "nix", "flake","configuration", "modules", "home-manager", "linux"]
 +++
 
 > **[2024-06] NOTE**:

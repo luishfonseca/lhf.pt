@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+
+{% block content %}
+<header>
+    <hgroup>
+        <h1>Posts with keyword {{ term.name }}</h1>
+    </hgroup>
+</header>
+{{ macros::list(pages=term.pages) }}
+{% endblock content %}
