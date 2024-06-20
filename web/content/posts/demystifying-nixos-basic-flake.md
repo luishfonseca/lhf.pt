@@ -1,5 +1,5 @@
 +++
-title = "Demystifying NixOS: The Basic Flake (1/4)"
+title = "Demystifying NixOS: The Basic Flake"
 date = 2023-07-04
 description = """
 NixOS can often feel overwhelming, especially for newcomers to the operating system.
@@ -10,8 +10,12 @@ In part 1 we look at a basic starting point.
 """
 
 [taxonomies]
-tags = ["demystifying-nixos", "nixos"]
+tags = ["nixos"]
 +++
+
+> **[2024-06] NOTE**:
+> 
+> This was meant to be a series of posts, but I never got around to working on the next parts. I might revisit this in the future, including rewriting this one.
 
 NixOS can often feel overwhelming, especially for newcomers to the operating system.
 
@@ -259,11 +263,3 @@ With this addition, our configuration is now ready to make use of Home Manager.
 ```
 
 Within the configuration file, we have enabled Home Manager and added a simple configuration for the demo user. This configuration enables the newsboat program and includes the feed from this blog.
-
-## Next in the series: Multi-Host Configurations
-
-In the next installment of this series, we will explore how to expand our flake configuration to include multiple hosts. We will delve into the power of the Nix expression language and learn how to template our config to generate host configurations dynamically.
-
-Read the next post here: (coming soon)
-
-Read other posts in this series: [Demystifying NixOS](/tags/demystifying-nixos/)
