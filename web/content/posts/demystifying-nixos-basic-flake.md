@@ -33,7 +33,7 @@ In this opinionated series, my aim is to provide a structured path that takes yo
 - Organizes configuration options into profiles.
 - Is fully understood by you, the reader.
 
-## The Nix trinity
+# The Nix trinity
 
 Within the Nix ecosystem, it's important to differentiate between three key components that are often referred to as Nix.
 
@@ -41,7 +41,7 @@ Within the Nix ecosystem, it's important to differentiate between three key comp
 - Nix packages (or Nixpkgs): Firstly, they contain packaging instructions for various programs and software libraries. Secondly, they include modules that bundle configuration settings for these programs. Nix packages are written using the Nix expression language.
 - NixOS: It is a complete operating system built on top of the programs packaged in Nixpkgs. It leverages the Nix expression language and the Nixpkgs modules to configure and manage the entire system.
 
-## A starting point
+# A starting point
 
 Let's begin with a simple NixOS configuration that will serve as our starting point throughout this series. Take a look at the code snippet below:
 
@@ -72,7 +72,7 @@ The `outputs` attribute is a function that takes the `inputs` as an argument and
 
 To construct the `myhost` configuration, we make use of the `nixpkgs.lib.nixosSystem` function provided by the Nixpkgs library. This function takes in various parameters, such as the target system architecture (`system`) and a list of modules (`modules`) that define specific configuration settings. In our initial configuration, the modules list is empty, resulting in a default NixOS configuration.
 
-## Modules
+# Modules
 
 To customize our NixOS system we'll create our own modules. Let's take a closer look at their structure:
 
@@ -137,7 +137,7 @@ We've added a single module to the `modules` list. This module defines basic con
 
 Additionally, we have specified the desired NixOS state version as `23.05` to suppress the warning message we would otherwise receive.
 
-## Testing it out
+# Testing it out
 
 Now that we have our basic NixOS configuration in place, it's time to test it out and see it in action. To do this, we can run the following commands:
 
@@ -149,7 +149,7 @@ The command will build a virtual machine image for our `myhost` configuration an
 
 If everything goes well, you should be logged in as the `demo` user.
 
-## Splitting the configuration
+# Splitting the configuration
 
 To enhance organization and modularity, it is often useful to split the configuration into separate files. Let's explore how we can achieve this by moving our configuration to a separate file.
 
@@ -202,7 +202,7 @@ In this updated version, we've turned our configuration into a function that tak
 
 You might be recognizing this `configuration.nix`; it is indeed the same file as the one created by `nixos-generate-config`! This means that we can move that file here and completely migrate to a flake-based configuration.
 
-## Extra: Home Manager
+# Extra: Home Manager
 
 Many NixOS users also use Home Manager to manage their user configurations. While I have some mixed feelings about it, Home Manager serves as an excellent demonstration of how to incorporate additional inputs into our flake.
 
